@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Jongyoungcha&#39;s journal</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="JAVA Coding Convention
+ Why  이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.   Defined Rules  Package Structure   패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.
+ – Registry (config)
+ – Controller (controller)
+ – Service (service, vo)">
+    <meta name="generator" content="Hugo 0.98.0" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="JAVA Coding Convention
+ Why  이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.   Defined Rules  Package Structure   패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.
+ – Registry (config)
+ – Controller (controller)
+ – Service (service, vo)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/org/java_convention_20220509/" /><meta property="article:section" content="posts" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="JAVA Coding Convention
+ Why  이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.   Defined Rules  Package Structure   패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.
+ – Registry (config)
+ – Controller (controller)
+ – Service (service, vo)">
+
+<meta itemprop="wordCount" content="539">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="JAVA Coding Convention
+ Why  이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.   Defined Rules  Package Structure   패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.
+ – Registry (config)
+ – Controller (controller)
+ – Service (service, vo)"/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Jongyoungcha&#39;s journal
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        POSTS
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 class="title"><p>JAVA Coding Convention</p>
+</h1>
+
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Why
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다. </p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Defined Rules
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<div id="outline-container-headline-3" class="outline-3">
+<h3 id="headline-3">
+Package Structure
+</h3>
+<div id="outline-text-headline-3" class="outline-text-3">
+<p>
+패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는
+패키지 명이다.</p>
+<p>
+– Registry (config)</p>
+<p>
+– Controller (controller)</p>
+<p>
+– Service (service, vo)</p>
+<p>
+– Domain (domain)</p>
+<p>
+– Repository (repository, dto)</p>
+<p>
+– External (external)</p>
+<ul>
+<li>controller : 컨트롤러 클래스들이 위치한다. 컨트롤러 클래스는 Http, Grpc
+프로토콜 구현체가 포함된다.</li>
+<li>
+<p>vo : Controller와 Service간의 데이터 전송을 위해서 사용되는 클래스들이 정의된다.</p>
+<ul>
+<li>protocol
+
+– service 클래스에 전달할 Value 클래스들을 정의한다. Request 클래스는
+엔드포인트당 한개씩 존재한다. (추천 Naming: ~Request)
+
+– service 클래스에서 return할 Value 클래스들을 정의한다. Response 클래스는 엔드포인트당
+한개씩 존재한다. (추천 Naming: ~Response)
+
+– 클래스가 15 이상으로 많아지면 category depth (ex: protocol.payment,
+potocol.cashreceipt)를 추가해서 분류해서 관리한다.</li>
+<li>model
+
+– protocol 클래스에서 멤버 변수로 사용되고 있는 Value 클래스를 정의한다.
+
+– 패키지내 클래스가 15개 이상으로 많아지면 category depth(ex: model.payment,
+model.cashreceipt)를 추가해서 분류해서 관리한다.
+
+– dto.model 또는 dto.common 클래스들과 이름이 겹칠 수 있으므로 ~Vo로
+네이밍 한다.  </li>
+<li>common
+
+– 공통으로 사용되는 Value 클래스, 추가 category depth 없이 관리한다.
+
+– dto.model 또는 dto.common 클래스들과 이름이 겹칠 수 있으므로 ~Vo로
+네이밍 한다.  </li>
+</ul>
+</li>
+<li>service : domain, repository, external등의 패키지들을 이용해서 서비스 로직 클래스들을 작성한다.</li>
+<li>
+<p>dto</p>
+<ul>
+<li>protocol
+
+– repository 인터페이스에 pass할 파라미터 Value 클래스들을
+정의한다. (추천 Naming: ~Param)
+
+– repository 인터페이스에서 return할 모델 Value 클래스들을
+정의한다. (추천 Naming: ~Result)</li>
+<li>model
+
+– protocol 클래스에서 멤버 변수로 사용되고 있는 Value 클래스를 정의한다.
+
+– 패키지내 클래스가 15 이상으로 많아지면 category depth(ex: dto.payment,
+dto.cashreceipt)를 추가해서 분류해서 관리한다.
+
+– vo.model 또는 vo.common 클래스들과 이름이 겹칠 수 있으므로 ~Dto로
+네이밍 한다.  </li>
+<li>common
+
+– 공통으로 사용되는 Value 클래스, 추가 category depth 없이 관리한다.
+
+– vo.model 또는 vo.common 클래스들과 이름이 겹칠 수 있으므로 ~Dto로
+네이밍 한다.  </li>
+</ul>
+</li>
+<li>repository
+
+– 데이터를 핸들링 하기 위한 CRUD 인터페이스들을 정의한다.
+
+– CRUD 메소드 Naming은 각 각 (Create, Get, Put, Delete)를 Prefix로 가진다. 
+
+– dto 패키지의 파라미터 Value 클래스, 모델 Value 클래스들을 이용해서
+Method들을 정의한다.</li>
+<li>entity : DB에서 import한 entity모델들이 정의된다. PG에서는 JPA의 ddl-auto:
+none 옵션을 기본으로 사용한다. 따라서 entity에 코드로 action 메소드를 정의 할 수 없기 때문에
+entity는 도메인이 될 수 없다.</li>
+<li>domain : 도메인 클래스들이 정의된다. 도메인 클래스는 서비스의 핵심 로직을 구현한 클래스이다. </li>
+<li>config : 환경정보를 불러와서 서비스 동작 방식을 결정짓는 클래스들을
+정의한다. 이러한 형태의 클래스들은 Spring Config 클래스들이 포함된다.</li>
+<li>external : 외부 패키지, 서비스들의 인터페이스, concrete 클래스들이 정의된다.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-3">
+<h3 id="headline-4">
+Naming
+</h3>
+<div id="outline-text-headline-4" class="outline-text-3">
+<ul>
+<li>
+<p>Package</p>
+<ul>
+<li>소문자만 사용</li>
+<li>&#39;-&#39; 또는 &#39;_&#39; 사용하지 않기</li>
+<li>GoodCase</li>
+</ul>
+<div class="src src-java">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#f92672">package</span> com.example.deepspace<span style="color:#f92672">;</span></span></span></code></pre></div>
+</div>
+</li>
+<li>
+<p>File Naming</p>
+<ul>
+<li>JAVA는 파일 이름이 기본적으로 top-level 클래스 명을 따른다.</li>
+</ul>
+</li>
+<li>
+<p>Class, AbstractClass</p>
+<ul>
+<li>파스칼 케이스(PascalCase)를 따른다.</li>
+<li>GoodCase</li>
+</ul>
+<div class="src src-java">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PaymentService</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span></span></span></code></pre></div>
+</div>
+</li>
+<li>
+<p>Interface</p>
+<ul>
+<li>파스칼 케이스(PascalCase)를 따른다.</li>
+<li>인터페이스 네이밍 앞에 prefix I를 붙인다.</li>
+<li>
+<p>GoodCase</p>
+<div class="src src-java">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IPaymentService</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span></span></span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li>
+<p>Method</p>
+<ul>
+<li>카멜 케이스(carmelCase)를 따른다.</li>
+<li>
+<p>GoodCase</p>
+<div class="src src-java">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IPaymentService</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">paymentCredit</span><span style="color:#f92672">(</span>Payment payment<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span></span></span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li>
+<p>Member, Local Variable</p>
+<ul>
+<li>카멜 케이스(carmelCase)를 따른다.</li>
+<li>
+<p>GoodCase</p>
+<div class="src src-java">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PaymentService</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> orderCount<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printLocalCount</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">int</span> orderCountLocal <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span></span></span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li>
+<p>Constant</p>
+<ul>
+<li>대문자(UPPERCASE)와 함께 &#39;_&#39;을 구분자로 사용한다.</li>
+<li>public static final과 함께 사용하도록 한다. </li>
+<li>
+<p>GoodCase</p>
+<div class="src src-java">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PaymentService</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> PAYMENT_METHOD <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span></span></span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-3">
+<h3 id="headline-5">
+Style
+</h3>
+<div id="outline-text-headline-5" class="outline-text-3">
+<ul>
+<li>
+<p>Indentation</p>
+<ul>
+<li>tab(&#39;\t&#39;, 0x09)을 사용하지 말라</li>
+<li>4개의 whitespace(&#39; &#39;, 0x20)로 사용해</li>
+<li>GoodCase</li>
+</ul>
+<div class="src src-java">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PaymentService</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>             System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;expression after indentation of 8 whitespaces&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">}</span></span></span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-3">
+<h3 id="headline-6">
+Rules Must Obey
+</h3>
+<div id="outline-text-headline-6" class="outline-text-3">
+<ul>
+<li></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-7" class="outline-3">
+<h3 id="headline-7">
+Rules Optional
+</h3>
+<div id="outline-text-headline-7" class="outline-text-3">
+<ul>
+<li></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-2">
+<h2 id="headline-8">
+References
+</h2>
+<div id="outline-text-headline-8" class="outline-text-2">
+<p><a href="https://google.github.io/styleguide/javaguide.html">https://google.github.io/styleguide/javaguide.html</a></p>
+</div>
+</div>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  Jongyoungcha's journal 2022 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
