@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>JAVA Coding Convention | Jongyoungcha&#39;s journal</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>JAVA Coding Convention | Jongyoungcha&#39;s journal</title>
+<meta name="keywords" content="sometag01, sometag02">
+<meta name="description" content="Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.
 Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.
 &ndash; Registry (config)
 &ndash; Controller (controller)
@@ -14,29 +15,55 @@ Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패�
 &ndash; Domain (domain)
 &ndash; Repository (repository, dto)
 &ndash; External (external)">
-    <meta name="generator" content="Hugo 0.98.0" />
-    
-    
-    
-    
-      <meta name="robots" content="noindex, nofollow">
-    
+<meta name="author" content="jongyoungcha">
+<link rel="canonical" href="http://example.org/posts/java_convention_20220509/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.a79d33c9910abda2c9aec8d7c64f771702494119664c1bad55e5f06a12d037be.css" integrity="sha256-p50zyZEKvaLJrsjXxk93FwJJQRlmTButVeXwahLQN74=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
 
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
 
+            .list {
+                background: var(--theme);
+            }
 
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
 
-    
-    
-    
-      
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
 
-    
-
-    
-    
-    <meta property="og:title" content="JAVA Coding Convention" />
+    </style>
+</noscript><meta property="og:title" content="JAVA Coding Convention" />
 <meta property="og:description" content="Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.
 Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.
 &ndash; Registry (config)
@@ -47,21 +74,10 @@ Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패�
 &ndash; External (external)" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/posts/java_convention_20220509/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-04-30T15:00:00+09:00" />
-<meta property="article:modified_time" content="2022-05-17T17:54:01+09:00" />
+<meta property="article:published_time" content="2022-04-30T15:00:00&#43;09:00" />
+<meta property="article:modified_time" content="2022-05-17T17:54:01&#43;09:00" />
 
-<meta itemprop="name" content="JAVA Coding Convention">
-<meta itemprop="description" content="Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.
-Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.
-&ndash; Registry (config)
-&ndash; Controller (controller)
-&ndash; Service (service, vo)
-&ndash; Domain (domain)
-&ndash; Repository (repository, dto)
-&ndash; External (external)"><meta itemprop="datePublished" content="2022-04-30T15:00:00+09:00" />
-<meta itemprop="dateModified" content="2022-05-17T17:54:01+09:00" />
-<meta itemprop="wordCount" content="653">
-<meta itemprop="keywords" content="sometag01,sometag02," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="JAVA Coding Convention"/>
 <meta name="twitter:description" content="Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.
 Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.
@@ -72,85 +88,121 @@ Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패�
 &ndash; Repository (repository, dto)
 &ndash; External (external)"/>
 
-	
-  </head>
 
-  <body class="ma0 avenir bg-near-white">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "JAVA Coding Convention",
+      "item": "http://example.org/posts/java_convention_20220509/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "JAVA Coding Convention",
+  "name": "JAVA Coding Convention",
+  "description": "Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.\nDefined Rules Package Structure 패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.\n\u0026ndash; Registry (config)\n\u0026ndash; Controller (controller)\n\u0026ndash; Service (service, vo)\n\u0026ndash; Domain (domain)\n\u0026ndash; Repository (repository, dto)\n\u0026ndash; External (external)",
+  "keywords": [
+    "sometag01", "sometag02"
+  ],
+  "articleBody": "Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.\nDefined Rules Package Structure 패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.\n– Registry (config)\n– Controller (controller)\n– Service (service, vo)\n– Domain (domain)\n– Repository (repository, dto)\n– External (external)\n  controller\n– 컨트롤러 클래스들이 위치한다. 컨트롤러 클래스는 Http, Grpc 프로토콜 구현체가 포함된다\n– 메뉴 별로 category depth를 추가해서 관리한다. (ex: protocol.merchant, potocol.partner)\n  vo : Controller와 Service간의 데이터 전송을 위해서 사용되는 클래스들이 정의된다.\n  protocol\n– service 클래스에 전달할 Value 클래스들을 정의한다. Request 클래스는 엔드포인트당한개씩 존재한다. (추천 Naming: ~Request)\n– service 클래스에서 return할 Value 클래스들을 정의한다. Response 클래스는 엔드포인트당한개씩 존재한다. (추천 Naming: ~Response)\n– 메뉴 별로 category depth를 추가해서 관리한다. (ex: protocol.merchant, potocol.partner)\n– Request 클래스는 toParam(), Response 클래스는 ofResult(…) method를 정의해서 converter와 presenter 역할을 수행하게 한다.\n  model\n– protocol 클래스에서 멤버 변수로 사용되고 있는 Value 클래스를 정의한다.\n– 메뉴 별로 category depth를 추가해서 관리한다. (ex: protocol.merchant, potocol.partner)\n– toDto()또는 ofDto(…) method를 정의해서 converter또는 presenter 역할을 수행한다.\n– dto.model 또는 dto.common 클래스들과 이름이 겹칠 수 있으므로 ~Vo로 네이밍 한다.\n  common\n– 공통으로 사용되는 Value 클래스, 추가 category depth 없이 관리한다.\n– toDto()또는 ofDto(…) method를 정의해서 converter또는 presenter 역할을 수행한다.\n– dto.model 또는 dto.common 클래스들과 이름이 겹칠 수 있으므로 ~Vo로 네이밍 한다.\n    service\n– domain, repository, external등의 패키지들을 이용해서 서비스 로직 클래스들을 작성한다.\n– 메뉴 별로 category depth를 추가해서 관리한다. (ex: protocol.merchant, potocol.partner)\n  dto\n  protocol\n– repository 인터페이스에 pass할 파라미터 Value 클래스들을 정의한다. (추천 Naming: ~Param)\n– repository 인터페이스에서 return할 모델 Value 클래스들을 정의한다. (추천 Naming: ~Result)\n– 도메인 별로 category depth를 추가해서 관리한다. (ex: dto.payment, dto.cashreceipt)\n  model\n– protocol 클래스에서 멤버 변수로 사용되고 있는 Value 클래스를 정의한다.\n– 패키지내 클래스가 15 이상으로 많아지면 category depth(ex: dto.payment, dto.cashreceipt)를 추가해서 분류해서 관리한다.\n– vo.model 또는 vo.common 클래스들과 이름이 겹칠 수 있으므로 ~Dto로 네이밍 한다.\n– 도메인 별로 category depth를 추가해서 관리한다. (ex: dto.payment, dto.cashreceipt)\n  common\n– 공통으로 사용되는 Value 클래스, 추가 category depth 없이 관리한다.\n– vo.model 또는 vo.common 클래스들과 이름이 겹칠 수 있으므로 ~Dto로 네이밍 한다.\n– 도메인 별로 category depth를 추가해서 관리한다. (ex: dto.payment, dto.cashreceipt)\n    repository\n– 데이터를 핸들링 하기 위한 CRUD 인터페이스들을 정의한다.\n– CRUD 메소드 Naming은 각 각 (Create, Get, Put, Delete)를 Prefix로 가진다.\n– dto 패키지의 파라미터 Value 클래스, 모델 Value 클래스들을 이용해서 Method들을 정의한다.\n  entity : DB에서 import한 entity모델들이 정의된다. PG에서는 JPA의\nddl-auto: none 옵션을 기본으로 사용한다. 따라서 entity에 코드로 action 메소드를 정의 할 수 없기 때문에 entity는 도메인이 될 수 없다.\n  domain : 도메인 클래스들이 정의된다. 도메인 클래스는 서비스의 핵심 로직을 구현한 클래스이다.\n  config : 환경정보를 불러와서 서비스 동작 방식을 결정짓는 클래스들을 정의한다. 이러한 형태의 클래스들은 Spring Config 클래스들이 포함된다.\n  external – 외부 패키지, 서비스들의 인터페이스, concrete 클래스들이 정의된다. – 패키지, 서비스 별로 category depth를 추가해서 관리한다. (ex: external.otpgenerator, dto.paymentproxy)\n  Naming   Package\n  소문자만 사용\n  ‘-’ 또는 ‘_’ 사용하지 않기\n  GoodCase\npackage com.example.deepspace;     File Naming\n JAVA는 파일 이름이 기본적으로 top-level 클래스 명을 따른다.    Class, AbstractClass\n  파스칼 케이스(PascalCase)를 따른다.\n  GoodCase\npublic class PaymentService {  ... }     Interface\n  파스칼 케이스(PascalCase)를 따른다.\n  인터페이스 네이밍 앞에 prefix I를 붙인다.\n  GoodCase\npublic interface IPaymentService {  ... }     Method\n  카멜 케이스(carmelCase)를 따른다.\n  GoodCase\npublic interface IPaymentService {  void paymentCredit(Payment payment); }     Member, Local Variable\n  카멜 케이스(carmelCase)를 따른다.\n  GoodCase\npublic class PaymentService {  private int orderCount;  public void printLocalCount() {  int orderCountLocal = 0;  ...  } }     Constant\n  대문자(UPPERCASE)와 함께 ‘_‘을 구분자로 사용한다.\n  public static final과 함께 사용하도록 한다.\n  GoodCase\npublic class PaymentService {  public static final int PAYMENT_METHOD = 1; }     Style  Indentation   tab(’\\t’, 0x09)을 사용하지 말라\n  4개의 whitespace(’ ‘, 0x20)로 사용해\n  GoodCase\npublic class PaymentService {  public void func(){  System.out.println(\"expression after indentation of 8 whitespaces\");  } }     Rules Must Obey   (Do) 공백, 문자열이 포함된 Column의 사이즈를 120로 제한\n 예외사항  열 제한을 지 킬 수 없는 행 (ex: 긴 URL 주소)      (Do) 값이 정확해야 하는 부동소수점 사칙연산에는 numeric 타입 (java.math.BigDecimal)을 이용해라\n  (Don’t)\n  Rules Optional References https://google.github.io/styleguide/javaguide.html\nhttps://sentbe-product.atlassian.net/wiki/spaces/TECB2BPlatform/pages/1364852932/PG+Java+Code+Convention#References-%7B%23references%7D\n",
+  "wordCount" : "653",
+  "inLanguage": "en",
+  "datePublished": "2022-04-30T15:00:00+09:00",
+  "dateModified": "2022-05-17T17:54:01+09:00",
+  "author":[{
+    "@type": "Person",
+    "name": "jongyoungcha"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/posts/java_convention_20220509/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jongyoungcha's journal",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
 
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="Jongyoungcha&#39;s journal (Alt + H)">Jongyoungcha&#39;s journal</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
     
-   
-  
+    <h1 class="post-title">
+      JAVA Coding Convention
+    </h1>
+    <div class="post-meta"><span title='2022-04-30 15:00:00 +0900 KST'>April 30, 2022</span>&nbsp;·&nbsp;jongyoungcha
 
-  <header>
-    <div class="bg-black">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l justify-between items-center center">
-    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
-      
-        Jongyoungcha&#39;s journal
-      
-    </a>
-    <div class="flex-l items-center">
-      
-
-      
-      
-<div class="ananke-socials">
-  
 </div>
-
-    </div>
-  </div>
-</nav>
-
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  <article class="flex-l flex-wrap justify-between mw8 center ph3">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked">
-          
-        POSTS
-      </aside>
-      
-
-
-
-
-
-
-
-
-
-
-  <div id="sharing" class="mt3 ananke-socials">
-    
-  </div>
-
-
-      <h1 class="f1 athelas mt3 mb1">JAVA Coding Convention</h1>
-      
-      <p class="tracked">
-        By <strong>jongyoungcha</strong>
-      </p>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2022-04-30T15:00:00+09:00">April 30, 2022</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h2 id="why">Why</h2>
+  </header> 
+  <div class="post-content"><h2 id="why">Why<a hidden class="anchor" aria-hidden="true" href="#why">#</a></h2>
 <p>이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.</p>
-<h2 id="defined-rules">Defined Rules</h2>
-<h3 id="package-structure">Package Structure</h3>
+<h2 id="defined-rules">Defined Rules<a hidden class="anchor" aria-hidden="true" href="#defined-rules">#</a></h2>
+<h3 id="package-structure">Package Structure<a hidden class="anchor" aria-hidden="true" href="#package-structure">#</a></h3>
 <p>패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는
 패키지 명이다.</p>
 <p>&ndash; Registry (config)</p>
@@ -262,7 +314,7 @@ entity는 도메인이 될 수 없다.</p>
 external.otpgenerator, dto.paymentproxy)</p>
 </li>
 </ul>
-<h3 id="naming">Naming</h3>
+<h3 id="naming">Naming<a hidden class="anchor" aria-hidden="true" href="#naming">#</a></h3>
 <ul>
 <li>
 <p>Package</p>
@@ -366,7 +418,7 @@ external.otpgenerator, dto.paymentproxy)</p>
 </ul>
 </li>
 </ul>
-<h3 id="style">Style</h3>
+<h3 id="style">Style<a hidden class="anchor" aria-hidden="true" href="#style">#</a></h3>
 <ul>
 <li>Indentation
 <ul>
@@ -387,7 +439,7 @@ external.otpgenerator, dto.paymentproxy)</p>
 </ul>
 </li>
 </ul>
-<h3 id="rules-must-obey">Rules Must Obey</h3>
+<h3 id="rules-must-obey">Rules Must Obey<a hidden class="anchor" aria-hidden="true" href="#rules-must-obey">#</a></h3>
 <ul>
 <li>
 <p>(Do) 공백, 문자열이 포함된 Column의 사이즈를 120로 제한</p>
@@ -406,64 +458,91 @@ external.otpgenerator, dto.paymentproxy)</p>
 <p>(Don&rsquo;t)</p>
 </li>
 </ul>
-<h3 id="rules-optional">Rules Optional</h3>
-<h2 id="references">References</h2>
+<h3 id="rules-optional">Rules Optional<a hidden class="anchor" aria-hidden="true" href="#rules-optional">#</a></h3>
+<h2 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h2>
 <p><a href="https://google.github.io/styleguide/javaguide.html">https://google.github.io/styleguide/javaguide.html</a></p>
 <p><a href="https://sentbe-product.atlassian.net/wiki/spaces/TECB2BPlatform/pages/1364852932/PG+Java+Code+Convention#References-%7B%23references%7D">https://sentbe-product.atlassian.net/wiki/spaces/TECB2BPlatform/pages/1364852932/PG+Java+Code+Convention#References-%7B%23references%7D</a></p>
-<ul class="pa0">
-  
-   <li class="list di">
-     <a href="/tags/sometag01" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">sometag01</a>
-   </li>
-  
-   <li class="list di">
-     <a href="/tags/sometag02" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">sometag02</a>
-   </li>
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
 
 
-
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="/posts/test/">HELLO WORLD</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/golang/">HELLO WORLD2</a>
-        </li>
-	    
-    </ul>
-</div>
-
-</aside>
-
-  </article>
-
-    </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
-    &copy;  Jongyoungcha's journal 2022 
-  </a>
-    <div>
-<div class="ananke-socials">
-  
-</div>
-</div>
   </div>
-</footer>
 
-  </body>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://example.org/tags/sometag01/">sometag01</a></li>
+      <li><a href="http://example.org/tags/sometag02/">sometag02</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="http://example.org/">Jongyoungcha&#39;s journal</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
 </html>
