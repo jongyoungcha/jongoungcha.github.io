@@ -51,7 +51,7 @@
  – Controller (controller)
  – Service (service, vo)">
 
-<meta itemprop="wordCount" content="539">
+<meta itemprop="wordCount" content="664">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="JAVA Coding Convention
@@ -166,27 +166,36 @@ Package Structure
 <p>
 – External (external)</p>
 <ul>
-<li>controller : 컨트롤러 클래스들이 위치한다. 컨트롤러 클래스는 Http, Grpc
-프로토콜 구현체가 포함된다.</li>
+<li>controller
+
+– 컨트롤러 클래스들이 위치한다. 컨트롤러 클래스는 Http, Grpc 프로토콜
+구현체가 포함된다
+
+– 메뉴 별로 category depth를 추가해서 관리한다. (ex: protocol.merchant, potocol.partner)</li>
 <li>
 <p>vo : Controller와 Service간의 데이터 전송을 위해서 사용되는 클래스들이 정의된다.</p>
 <ul>
 <li>protocol
 
 – service 클래스에 전달할 Value 클래스들을 정의한다. Request 클래스는
-엔드포인트당 한개씩 존재한다. (추천 Naming: ~Request)
+엔드포인트당한개씩 존재한다. (추천 Naming: ~Request)
 
-– service 클래스에서 return할 Value 클래스들을 정의한다. Response 클래스는 엔드포인트당
-한개씩 존재한다. (추천 Naming: ~Response)
+– service 클래스에서 return할 Value 클래스들을 정의한다. Response
+클래스는 엔드포인트당한개씩 존재한다. (추천 Naming: ~Response)
 
-– 클래스가 15 이상으로 많아지면 category depth (ex: protocol.payment,
-potocol.cashreceipt)를 추가해서 분류해서 관리한다.</li>
+– 메뉴 별로 category depth를 추가해서 관리한다. (ex: protocol.merchant,
+potocol.partner)
+
+– Request 클래스는 toParam(), Response 클래스는 ofResult(…) method를
+정의해서 converter와 presenter 역할을 수행하게 한다.</li>
 <li>model
 
 – protocol 클래스에서 멤버 변수로 사용되고 있는 Value 클래스를 정의한다.
 
-– 패키지내 클래스가 15개 이상으로 많아지면 category depth(ex: model.payment,
-model.cashreceipt)를 추가해서 분류해서 관리한다.
+– 메뉴 별로 category depth를 추가해서 관리한다. (ex: protocol.merchant,
+potocol.partner)
+
+– toDto()또는 ofDto(…) method를 정의해서 converter또는 presenter 역할을 수행한다.
 
 – dto.model 또는 dto.common 클래스들과 이름이 겹칠 수 있으므로 ~Vo로
 네이밍 한다.  </li>
@@ -194,11 +203,18 @@ model.cashreceipt)를 추가해서 분류해서 관리한다.
 
 – 공통으로 사용되는 Value 클래스, 추가 category depth 없이 관리한다.
 
+– toDto()또는 ofDto(…) method를 정의해서 converter또는 presenter 역할을 수행한다.
+
 – dto.model 또는 dto.common 클래스들과 이름이 겹칠 수 있으므로 ~Vo로
 네이밍 한다.  </li>
 </ul>
 </li>
-<li>service : domain, repository, external등의 패키지들을 이용해서 서비스 로직 클래스들을 작성한다.</li>
+<li>service
+
+– domain, repository, external등의 패키지들을 이용해서 서비스 로직
+클래스들을 작성한다.
+
+– 메뉴 별로 category depth를 추가해서 관리한다. (ex: protocol.merchant, potocol.partner)</li>
 <li>
 <p>dto</p>
 <ul>
@@ -208,7 +224,9 @@ model.cashreceipt)를 추가해서 분류해서 관리한다.
 정의한다. (추천 Naming: ~Param)
 
 – repository 인터페이스에서 return할 모델 Value 클래스들을
-정의한다. (추천 Naming: ~Result)</li>
+정의한다. (추천 Naming: ~Result)
+
+– 도메인 별로 category depth를 추가해서 관리한다. (ex: dto.payment, dto.cashreceipt)</li>
 <li>model
 
 – protocol 클래스에서 멤버 변수로 사용되고 있는 Value 클래스를 정의한다.
@@ -217,13 +235,19 @@ model.cashreceipt)를 추가해서 분류해서 관리한다.
 dto.cashreceipt)를 추가해서 분류해서 관리한다.
 
 – vo.model 또는 vo.common 클래스들과 이름이 겹칠 수 있으므로 ~Dto로
-네이밍 한다.  </li>
+네이밍 한다.
+
+– 도메인 별로 category depth를 추가해서 관리한다. (ex: dto.payment,
+dto.cashreceipt)</li>
 <li>common
 
 – 공통으로 사용되는 Value 클래스, 추가 category depth 없이 관리한다.
 
 – vo.model 또는 vo.common 클래스들과 이름이 겹칠 수 있으므로 ~Dto로
-네이밍 한다.  </li>
+네이밍 한다.  
+
+– 도메인 별로 category depth를 추가해서 관리한다. (ex: dto.payment,
+dto.cashreceipt)</li>
 </ul>
 </li>
 <li>repository
@@ -234,13 +258,21 @@ dto.cashreceipt)를 추가해서 분류해서 관리한다.
 
 – dto 패키지의 파라미터 Value 클래스, 모델 Value 클래스들을 이용해서
 Method들을 정의한다.</li>
-<li>entity : DB에서 import한 entity모델들이 정의된다. PG에서는 JPA의 ddl-auto:
-none 옵션을 기본으로 사용한다. 따라서 entity에 코드로 action 메소드를 정의 할 수 없기 때문에
-entity는 도메인이 될 수 없다.</li>
+<li>
+<p>entity : DB에서 import한 entity모델들이 정의된다. PG에서는 JPA의</p>
+<div class="src src-yaml">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  <span style="color:#f92672">ddl-auto</span>: <span style="color:#ae81ff">none</span></span></span></code></pre></div>
+</div>
+<p>옵션을 기본으로 사용한다. 따라서 entity에 코드로 action 메소드를 정의 할 수 없기 때문에
+entity는 도메인이 될 수 없다.</p>
+</li>
 <li>domain : 도메인 클래스들이 정의된다. 도메인 클래스는 서비스의 핵심 로직을 구현한 클래스이다. </li>
 <li>config : 환경정보를 불러와서 서비스 동작 방식을 결정짓는 클래스들을
 정의한다. 이러한 형태의 클래스들은 Spring Config 클래스들이 포함된다.</li>
-<li>external : 외부 패키지, 서비스들의 인터페이스, concrete 클래스들이 정의된다.</li>
+<li>external
+– 외부 패키지, 서비스들의 인터페이스, concrete 클래스들이 정의된다.
+– 패키지, 서비스 별로 category depth를 추가해서 관리한다. (ex:
+external.otpgenerator, dto.paymentproxy)</li>
 </ul>
 </div>
 </div>
@@ -374,7 +406,19 @@ Rules Must Obey
 </h3>
 <div id="outline-text-headline-6" class="outline-text-3">
 <ul>
-<li></li>
+<li>
+<p>(Do) 공백, 문자열이 포함된 Column의 사이즈를 120로 제한</p>
+<ul>
+<li>
+<p>예외사항</p>
+<ul>
+<li>열 제한을 지 킬 수 없는 행 (ex: 긴 URL 주소)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>(Do) 값이 정확해야 하는 부동소수점 사칙연산에는 numeric 타입 (java.math.BigDecimal)을 이용해라</li>
+<li>(Don&#39;t)</li>
 </ul>
 </div>
 </div>
@@ -382,11 +426,6 @@ Rules Must Obey
 <h3 id="headline-7">
 Rules Optional
 </h3>
-<div id="outline-text-headline-7" class="outline-text-3">
-<ul>
-<li></li>
-</ul>
-</div>
 </div>
 </div>
 </div>
@@ -395,7 +434,10 @@ Rules Optional
 References
 </h2>
 <div id="outline-text-headline-8" class="outline-text-2">
-<p><a href="https://google.github.io/styleguide/javaguide.html">https://google.github.io/styleguide/javaguide.html</a></p>
+<ul>
+<li>구글 자바 코딩 가이드: <a href="https://google.github.io/styleguide/javaguide.html">https://google.github.io/styleguide/javaguide.html</a></li>
+<li>log4j 자바 코딩 가이드: <a href="https://sentbe-product.atlassian.net/wiki/spaces/TECB2BPlatform/pages/1364852932/PG+Java+Code+Convention#References-">https://sentbe-product.atlassian.net/wiki/spaces/TECB2BPlatform/pages/1364852932/PG+Java+Code+Convention#References-</a>%7B%23references%7D</li>
+</ul>
 </div>
 </div>
 <ul class="pa0">
