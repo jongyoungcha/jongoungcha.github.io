@@ -2,36 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://example.org/posts/java_convention_20220509/</loc>
-    <lastmod>2022-05-17T17:54:01+09:00</lastmod>
+    <loc>http://example.org/categories/</loc>
+    <lastmod>2023-09-01T14:29:44+09:00</lastmod>
   </url><url>
-    <loc>http://example.org/</loc>
-    <lastmod>2022-05-17T17:54:01+09:00</lastmod>
+    <loc>http://example.org/tags/java/</loc>
+    <lastmod>2023-09-01T14:29:44+09:00</lastmod>
+  </url><url>
+    <loc>http://example.org/posts/java/java_convention_20220509/</loc>
+    <lastmod>2023-09-01T14:29:44+09:00</lastmod>
   </url><url>
     <loc>http://example.org/posts/</loc>
-    <lastmod>2022-05-17T17:54:01+09:00</lastmod>
+    <lastmod>2023-09-01T14:29:44+09:00</lastmod>
   </url><url>
-    <loc>http://example.org/tags/sometag01/</loc>
-    <lastmod>2022-05-17T17:54:01+09:00</lastmod>
+    <loc>http://example.org/categories/programming/</loc>
+    <lastmod>2023-09-01T14:29:44+09:00</lastmod>
   </url><url>
-    <loc>http://example.org/tags/sometag02/</loc>
-    <lastmod>2022-05-17T17:54:01+09:00</lastmod>
+    <loc>http://example.org/</loc>
+    <lastmod>2023-09-01T14:29:44+09:00</lastmod>
   </url><url>
     <loc>http://example.org/tags/</loc>
-    <lastmod>2022-05-17T17:54:01+09:00</lastmod>
+    <lastmod>2023-09-01T14:29:44+09:00</lastmod>
   </url><url>
-    <loc>http://example.org/posts/test/</loc>
-    <lastmod>2022-05-03T22:34:32+09:00</lastmod>
+    <loc>http://example.org/tags/go/</loc>
+    <lastmod>2023-09-01T14:29:39+09:00</lastmod>
   </url><url>
-    <loc>http://example.org/posts/golang/</loc>
-    <lastmod>2022-05-03T22:41:26+09:00</lastmod>
+    <loc>http://example.org/tags/golang/</loc>
+    <lastmod>2023-09-01T14:29:39+09:00</lastmod>
   </url><url>
-    <loc>http://example.org/posts/org/golang/</loc>
+    <loc>http://example.org/posts/golang/golang/</loc>
+    <lastmod>2023-09-01T14:29:39+09:00</lastmod>
   </url><url>
-    <loc>http://example.org/posts/org/java_convention_20220509/</loc>
+    <loc>http://example.org/org/golang/</loc>
   </url><url>
-    <loc>http://example.org/posts/org/test/</loc>
+    <loc>http://example.org/org/java_convention_20220509/</loc>
   </url><url>
-    <loc>http://example.org/categories/</loc>
+    <loc>http://example.org/org/profile/</loc>
+  </url><url>
+    <loc>http://example.org/org/</loc>
   </url>
 </urlset>
