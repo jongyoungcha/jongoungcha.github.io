@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>programming on Richard Jo&#39;s journal</title>
     <link>https://jongyoungcha.github.io/categories/programming/</link>
@@ -9,24 +9,8 @@
     <lastBuildDate>Mon, 09 May 2022 15:00:00 +0900</lastBuildDate><atom:link href="https://jongyoungcha.github.io/categories/programming/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>JAVA Coding Convention</title>
-      <link>https://jongyoungcha.github.io/content/posts/java/java_convention_20220509/</link>
-      <pubDate>Mon, 09 May 2022 15:00:00 +0900</pubDate>
-      
-      <guid>https://jongyoungcha.github.io/content/posts/java/java_convention_20220509/</guid>
-      <description>Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.
-Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.
-&amp;ndash; Registry (config)
-&amp;ndash; Controller (controller)
-&amp;ndash; Service (service, vo)
-&amp;ndash; Domain (domain)
-&amp;ndash; Repository (repository, dto)
-&amp;ndash; External (external)</description>
-    </item>
-    
-    <item>
-      <title>JAVA Coding Convention</title>
       <link>https://jongyoungcha.github.io/posts/java/java_convention_20220509/</link>
-      <pubDate>Sat, 30 Apr 2022 15:00:00 +0900</pubDate>
+      <pubDate>Mon, 09 May 2022 15:00:00 +0900</pubDate>
       
       <guid>https://jongyoungcha.github.io/posts/java/java_convention_20220509/</guid>
       <description>Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.
@@ -37,15 +21,6 @@ Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패�
 &amp;ndash; Domain (domain)
 &amp;ndash; Repository (repository, dto)
 &amp;ndash; External (external)</description>
-    </item>
-    
-    <item>
-      <title>GOLANG</title>
-      <link>https://jongyoungcha.github.io/posts/golang/golang/</link>
-      <pubDate>Sun, 03 Mar 2019 19:00:00 +0900</pubDate>
-      
-      <guid>https://jongyoungcha.github.io/posts/golang/golang/</guid>
-      <description>Hi Golang !</description>
     </item>
     
   </channel>
