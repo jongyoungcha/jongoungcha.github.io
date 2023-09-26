@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Emacs | Richard Jo&#39;s journal</title>
+<meta name="keywords" content="emacs">
+<meta name="description" content="dap-mode debugging with eglot-mode 최근에 회사에서 typescript로 block-listener 어플리케이션을 debugging을 해야할 일이 생겼다. emacs예서 debugging 자주 사용하는 플러그인 dap-mode를 주로 사용한다.
+https://github.com/emacs-lsp/dap-mode
+MS에서 debug-server와 debug-client (ex: vscode, vim, emacs, sublime&hellip;)들이 표준화된 방식으로 통신할 수 있는 방식으로 DAP(Debug Adapter Protocol)을 만들었다.
+당연히 MS에서 만든 vscode에서는 이 DAP을 사용한다.
+emacs내에서도 독립적으로 DAP을 사용하는 mode가 존재했으면 좋겠지만 불행히도 그렇지는 못한것 같다.
+dap-mode란 플러그인이 존재하는데, dap-client의 모든 기능을 emacs-lisp으로 다 구현한 것이 아닌
+vscode의 DAP 확장 플러그인을 호출하는 방식 같았다.">
+<meta name="author" content="jongyoungcha">
+<link rel="canonical" href="https://jongyoungcha.github.io/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.a79d33c9910abda2c9aec8d7c64f771702494119664c1bad55e5f06a12d037be.css" integrity="sha256-p50zyZEKvaLJrsjXxk93FwJJQRlmTButVeXwahLQN74=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://jongyoungcha.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://jongyoungcha.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://jongyoungcha.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://jongyoungcha.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://jongyoungcha.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Emacs" />
+<meta property="og:description" content="dap-mode debugging with eglot-mode 최근에 회사에서 typescript로 block-listener 어플리케이션을 debugging을 해야할 일이 생겼다. emacs예서 debugging 자주 사용하는 플러그인 dap-mode를 주로 사용한다.
+https://github.com/emacs-lsp/dap-mode
+MS에서 debug-server와 debug-client (ex: vscode, vim, emacs, sublime&hellip;)들이 표준화된 방식으로 통신할 수 있는 방식으로 DAP(Debug Adapter Protocol)을 만들었다.
+당연히 MS에서 만든 vscode에서는 이 DAP을 사용한다.
+emacs내에서도 독립적으로 DAP을 사용하는 mode가 존재했으면 좋겠지만 불행히도 그렇지는 못한것 같다.
+dap-mode란 플러그인이 존재하는데, dap-client의 모든 기능을 emacs-lisp으로 다 구현한 것이 아닌
+vscode의 DAP 확장 플러그인을 호출하는 방식 같았다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jongyoungcha.github.io/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-30T15:00:00&#43;09:00" />
+<meta property="article:modified_time" content="2023-09-25T10:46:20&#43;09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Emacs"/>
+<meta name="twitter:description" content="dap-mode debugging with eglot-mode 최근에 회사에서 typescript로 block-listener 어플리케이션을 debugging을 해야할 일이 생겼다. emacs예서 debugging 자주 사용하는 플러그인 dap-mode를 주로 사용한다.
+https://github.com/emacs-lsp/dap-mode
+MS에서 debug-server와 debug-client (ex: vscode, vim, emacs, sublime&hellip;)들이 표준화된 방식으로 통신할 수 있는 방식으로 DAP(Debug Adapter Protocol)을 만들었다.
+당연히 MS에서 만든 vscode에서는 이 DAP을 사용한다.
+emacs내에서도 독립적으로 DAP을 사용하는 mode가 존재했으면 좋겠지만 불행히도 그렇지는 못한것 같다.
+dap-mode란 플러그인이 존재하는데, dap-client의 모든 기능을 emacs-lisp으로 다 구현한 것이 아닌
+vscode의 DAP 확장 플러그인을 호출하는 방식 같았다."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://jongyoungcha.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Emacs",
+      "item": "https://jongyoungcha.github.io/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Emacs",
+  "name": "Emacs",
+  "description": "dap-mode debugging with eglot-mode 최근에 회사에서 typescript로 block-listener 어플리케이션을 debugging을 해야할 일이 생겼다. emacs예서 debugging 자주 사용하는 플러그인 dap-mode를 주로 사용한다.\nhttps://github.com/emacs-lsp/dap-mode\nMS에서 debug-server와 debug-client (ex: vscode, vim, emacs, sublime\u0026hellip;)들이 표준화된 방식으로 통신할 수 있는 방식으로 DAP(Debug Adapter Protocol)을 만들었다.\n당연히 MS에서 만든 vscode에서는 이 DAP을 사용한다.\nemacs내에서도 독립적으로 DAP을 사용하는 mode가 존재했으면 좋겠지만 불행히도 그렇지는 못한것 같다.\ndap-mode란 플러그인이 존재하는데, dap-client의 모든 기능을 emacs-lisp으로 다 구현한 것이 아닌\nvscode의 DAP 확장 플러그인을 호출하는 방식 같았다.",
+  "keywords": [
+    "emacs"
+  ],
+  "articleBody": "dap-mode debugging with eglot-mode 최근에 회사에서 typescript로 block-listener 어플리케이션을 debugging을 해야할 일이 생겼다. emacs예서 debugging 자주 사용하는 플러그인 dap-mode를 주로 사용한다.\nhttps://github.com/emacs-lsp/dap-mode\nMS에서 debug-server와 debug-client (ex: vscode, vim, emacs, sublime…)들이 표준화된 방식으로 통신할 수 있는 방식으로 DAP(Debug Adapter Protocol)을 만들었다.\n당연히 MS에서 만든 vscode에서는 이 DAP을 사용한다.\nemacs내에서도 독립적으로 DAP을 사용하는 mode가 존재했으면 좋겠지만 불행히도 그렇지는 못한것 같다.\ndap-mode란 플러그인이 존재하는데, dap-client의 모든 기능을 emacs-lisp으로 다 구현한 것이 아닌\nvscode의 DAP 확장 플러그인을 호출하는 방식 같았다.\n그렇기 때문에 dap-mode를 설정시 아래와 같이 .emacs.d 내부에 vscode 플러그인이 설치된 디렉토리가 존재하게 된다.\n$ pwd /Users/jongyoungcha/.emacs.d/.extension/vscode 언제나 처럼 typescipt를 디버깅하려 template를 만들고 dap-debug를 수행하는데\n(dap-register-debug-template \"typescript-debugging-launch\" (list :type \"node\" :request \"launch\" :program \"${workspaceFolder}/src/main.ts\" :outFiles [\"${workspaceFolder}/dist/*.js\"] :name \"typescript-debugging-launch\")) 이제 main.ts에서 dap-debug 수행 후 typescript-debugging-launch를 수행하는데 실패가 떨어진다.\nMessages 버퍼를 보니 왜 실패했는지 상세한 정보를 열람 할 수 있었다.\nReceived: { \"seq\": 5, \"type\": \"response\", \"request_seq\": 2, \"command\": \"launch\", \"success\": null, \"message\": \"Attribute 'program' does not exist ('{path}').\", \"body\": { \"error\": { \"id\": 2007, \"format\": \"Attribute 'program' does not exist ('{path}').\", \"variables\": { \"path\": \"/src/main.ts\" } } } } Debug session process exited with status: killed: 9 body.variables.path를 보니 ${workspaceFolder}값을 인식하지 못하고 있는것 같다.\n해당 플러그인의 repository관리자는 현재 lsp-mode와 함께 dap-mode를 관리하고 있다.\nemacs raddit에서 dap-mode 는 lsp-mode와 intergated 해서 동작한다는 정보를 본적이 있다.\n그리고 최근에 나는 lsp 기능을 emacs built-in mode인 eglot 모드로 변경했다.\n혹시나 해서 lsp 모드를 활성화 한수 다시 수행해 보았는데 잘된다…\n그렇다면 단지 dap-mode template에서 ${workspaceFolder}와 같은 reserved variable을 사용하기 위해서\nlsp-mode와 eglot을 같이 홣성화 하기에는 리소스 소모가 너무 크다…\n어쩔 수 없이 ${workspaceFolder} 부분을 제거한 하드 코딩된 템플릿을 만든다.\n(dap-register-debug-template \"typescript-debugging-hard\" (list :type \"node\" :request \"launch\" :program \"/Users/jongyoungcha/work/mdl-explorer-block-event-listener/src/main.ts\" :outFiles [\"/Users/jongyoungcha/work/mdl-explorer-block-event-listener/dist/*.js\"] :name \"typescript-debugging-hard\")) dap-mode를 자주 사용할 경우 eglot이 아닌 lsp-mode와 함께 사용하길 권한다.\n같은 committer가 관리 하기 때문에 같이 연동되어 동작한다.\n아니면 위에처럼 ${workspaceFolder}와 같은 변수가 없는 dap-mode template를 만들어야 한다.\n",
+  "wordCount" : "300",
+  "inLanguage": "en",
+  "datePublished": "2022-04-30T15:00:00+09:00",
+  "dateModified": "2023-09-25T10:46:20+09:00",
+  "author":[{
+    "@type": "Person",
+    "name": "jongyoungcha"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jongyoungcha.github.io/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Richard Jo's journal",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://jongyoungcha.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://jongyoungcha.github.io/" accesskey="h" title="Richard Jo&#39;s journal (Alt + H)">Richard Jo&#39;s journal</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://jongyoungcha.github.io/" title="Home">
+                    <span><i class='fas fa-folder'></i>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jongyoungcha.github.io/org/profile" title="Profile">
+                    <span><i class='fas fa-folder'></i>Profile</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jongyoungcha.github.io/categories" title="Categories">
+                    <span><i class='fas fa-folder'></i>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jongyoungcha.github.io/tags" title="Tags">
+                    <span><i class='fas fa-folder'></i>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Emacs
+    </h1>
+    <div class="post-meta"><span title='2022-04-30 15:00:00 +0900 KST'>April 30, 2022</span>&nbsp;·&nbsp;jongyoungcha
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="dap-mode-debugging-with-eglot-mode">dap-mode debugging with eglot-mode<a hidden class="anchor" aria-hidden="true" href="#dap-mode-debugging-with-eglot-mode">#</a></h2>
+<p>최근에 회사에서 typescript로 block-listener 어플리케이션을 debugging을 해야할 일이 생겼다.
+emacs예서 debugging 자주 사용하는 플러그인 dap-mode를 주로 사용한다.</p>
+<p><a href="https://github.com/emacs-lsp/dap-mode">https://github.com/emacs-lsp/dap-mode</a></p>
+<p>MS에서 debug-server와 debug-client (ex: vscode, vim, emacs, sublime&hellip;)들이 표준화된 방식으로 통신할 수 있는 방식으로 DAP(Debug Adapter Protocol)을 만들었다.</p>
+<p>당연히 MS에서 만든 vscode에서는 이 DAP을 사용한다.</p>
+<p>emacs내에서도 독립적으로 DAP을 사용하는 mode가 존재했으면 좋겠지만 불행히도 그렇지는 못한것 같다.</p>
+<p>dap-mode란 플러그인이 존재하는데, dap-client의 모든 기능을 emacs-lisp으로 다 구현한 것이 아닌</p>
+<p>vscode의 DAP 확장 플러그인을 호출하는 방식 같았다.</p>
+<p>그렇기 때문에 dap-mode를 설정시 아래와 같이 .emacs.d 내부에 vscode 플러그인이 설치된 디렉토리가 존재하게 된다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ pwd
+</span></span><span style="display:flex;"><span>/Users/jongyoungcha/.emacs.d/.extension/vscode
+</span></span></code></pre></div><p>언제나 처럼 typescipt를 디버깅하려 template를 만들고 dap-debug를 수행하는데</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(dap-register-debug-template <span style="color:#e6db74">&#34;typescript-debugging-launch&#34;</span>
+</span></span><span style="display:flex;"><span>                             (<span style="color:#a6e22e">list</span> :type <span style="color:#e6db74">&#34;node&#34;</span>
+</span></span><span style="display:flex;"><span>                                   :request <span style="color:#e6db74">&#34;launch&#34;</span>
+</span></span><span style="display:flex;"><span>                                   :program <span style="color:#e6db74">&#34;${workspaceFolder}/src/main.ts&#34;</span>
+</span></span><span style="display:flex;"><span>                                   :outFiles [<span style="color:#e6db74">&#34;${workspaceFolder}/dist/*.js&#34;</span>]
+</span></span><span style="display:flex;"><span>                                   :name <span style="color:#e6db74">&#34;typescript-debugging-launch&#34;</span>))
+</span></span></code></pre></div><p>이제 main.ts에서 dap-debug 수행 후 typescript-debugging-launch를 수행하는데 실패가 떨어진다.</p>
+<p><strong>Messages</strong> 버퍼를 보니 왜 실패했는지 상세한 정보를 열람 할 수 있었다.</p>
+<pre tabindex="0"><code class="language-nil" data-lang="nil">Received:
+{
+  &#34;seq&#34;: 5,
+  &#34;type&#34;: &#34;response&#34;,
+  &#34;request_seq&#34;: 2,
+  &#34;command&#34;: &#34;launch&#34;,
+  &#34;success&#34;: null,
+  &#34;message&#34;: &#34;Attribute &#39;program&#39; does not exist (&#39;{path}&#39;).&#34;,
+  &#34;body&#34;: {
+    &#34;error&#34;: {
+      &#34;id&#34;: 2007,
+      &#34;format&#34;: &#34;Attribute &#39;program&#39; does not exist (&#39;{path}&#39;).&#34;,
+      &#34;variables&#34;: {
+        &#34;path&#34;: &#34;/src/main.ts&#34;
+      }
+    }
+  }
+}
+Debug session process exited with status: killed: 9
+</code></pre><p>body.variables.path를 보니 ${workspaceFolder}값을 인식하지 못하고 있는것 같다.</p>
+<p>해당 플러그인의 repository관리자는 현재 lsp-mode와 함께 dap-mode를 관리하고 있다.</p>
+<p>emacs raddit에서 dap-mode 는 lsp-mode와 intergated 해서 동작한다는 정보를 본적이 있다.</p>
+<p>그리고 최근에 나는 lsp 기능을 emacs built-in mode인 eglot 모드로 변경했다.</p>
+<p>혹시나 해서 lsp 모드를 활성화 한수 다시 수행해 보았는데 잘된다&hellip;</p>
+<p>그렇다면 단지 dap-mode template에서 ${workspaceFolder}와 같은 reserved variable을 사용하기 위해서</p>
+<p>lsp-mode와 eglot을 같이 홣성화 하기에는 리소스 소모가 너무 크다&hellip;</p>
+<p>어쩔 수 없이 ${workspaceFolder} 부분을 제거한 하드 코딩된 템플릿을 만든다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(dap-register-debug-template <span style="color:#e6db74">&#34;typescript-debugging-hard&#34;</span>
+</span></span><span style="display:flex;"><span>                             (<span style="color:#a6e22e">list</span> :type <span style="color:#e6db74">&#34;node&#34;</span>
+</span></span><span style="display:flex;"><span>                                   :request <span style="color:#e6db74">&#34;launch&#34;</span>
+</span></span><span style="display:flex;"><span>                                   :program <span style="color:#e6db74">&#34;/Users/jongyoungcha/work/mdl-explorer-block-event-listener/src/main.ts&#34;</span>
+</span></span><span style="display:flex;"><span>                                   :outFiles [<span style="color:#e6db74">&#34;/Users/jongyoungcha/work/mdl-explorer-block-event-listener/dist/*.js&#34;</span>]
+</span></span><span style="display:flex;"><span>                                   :name <span style="color:#e6db74">&#34;typescript-debugging-hard&#34;</span>))
+</span></span></code></pre></div><p>dap-mode를 자주 사용할 경우 eglot이 아닌 lsp-mode와 함께 사용하길 권한다.</p>
+<p>같은 committer가 관리 하기 때문에 같이 연동되어 동작한다.</p>
+<p>아니면 위에처럼 ${workspaceFolder}와 같은 변수가 없는 dap-mode template를 만들어야 한다.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://jongyoungcha.github.io/tags/emacs/">emacs</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://jongyoungcha.github.io/">Richard Jo&#39;s journal</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
