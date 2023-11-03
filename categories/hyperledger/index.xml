@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hyperledger on Richard Jo&#39;s journal</title>
+    <link>https://jongyoungcha.github.io/categories/hyperledger/</link>
+    <description>Recent content in hyperledger on Richard Jo&#39;s journal</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 05 Oct 2023 00:00:00 +0900</lastBuildDate><atom:link href="https://jongyoungcha.github.io/categories/hyperledger/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing Fabric Binaries</title>
+      <link>https://jongyoungcha.github.io/posts/hyperledger/startup-fabric-network/</link>
+      <pubDate>Thu, 05 Oct 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://jongyoungcha.github.io/posts/hyperledger/startup-fabric-network/</guid>
+      <description>Full Table of Contents Installing Fabric Binaries Start Fabric CA Process Create Certificates for Orderer Organization (Locate MSPs) Create Certificates for Peer Organizations (Locate MSPs) Create Genesis Block Start Up Orderer Nodes Start Up Peer Nodes Create and Join Channel Installing Fabric Binaries Binaries project (https://codeberg.org/richard-jo/rj-fabric-snippets.git)
+git clone https://codeberg.org/richard-jo/rj-fabric-snippets.git cd rj-fabric-snippets Download fabric binaries
+./install-bin.sh cd ./bin Add bin directory of fabric excutables to PATH (bash)
+echo &amp;#34;${rj-fabric-snippets}/bin&amp;#34; &amp;gt;&amp;gt; ~/.bashrc Seting up local fabric network (single-org)</description>
+    </item>
+    
+  </channel>
+</rss>

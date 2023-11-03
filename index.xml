@@ -6,7 +6,19 @@
     <description>Recent content on Richard Jo&#39;s journal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Sep 2023 00:00:00 +0900</lastBuildDate><atom:link href="https://jongyoungcha.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 Oct 2023 00:00:00 +0900</lastBuildDate><atom:link href="https://jongyoungcha.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing Fabric Binaries</title>
+      <link>https://jongyoungcha.github.io/posts/hyperledger/startup-fabric-network/</link>
+      <pubDate>Thu, 05 Oct 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://jongyoungcha.github.io/posts/hyperledger/startup-fabric-network/</guid>
+      <description>Full Table of Contents Installing Fabric Binaries Start Fabric CA Process Create Certificates for Orderer Organization (Locate MSPs) Create Certificates for Peer Organizations (Locate MSPs) Create Genesis Block Start Up Orderer Nodes Start Up Peer Nodes Create and Join Channel Installing Fabric Binaries Binaries project (https://codeberg.org/richard-jo/rj-fabric-snippets.git)
+git clone https://codeberg.org/richard-jo/rj-fabric-snippets.git cd rj-fabric-snippets Download fabric binaries
+./install-bin.sh cd ./bin Add bin directory of fabric excutables to PATH (bash)
+echo &amp;#34;${rj-fabric-snippets}/bin&amp;#34; &amp;gt;&amp;gt; ~/.bashrc Seting up local fabric network (single-org)</description>
+    </item>
+    
     <item>
       <title>Emacs dap-mode debug with eglot-mode</title>
       <link>https://jongyoungcha.github.io/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/</link>

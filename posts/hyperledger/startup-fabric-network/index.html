@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Installing Fabric Binaries | Richard Jo&#39;s journal</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/posts/profile">Profile</a></li>
+      
+      <li><a href="/categories">Categories</a></li>
+      
+      <li><a href="/tags">Tags</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Installing Fabric Binaries</span></h1>
+<h2 class="author">[Jo Richard]</h2>
+<h2 class="date">2023/10/05</h2>
+</div>
+
+<main>
+<h2 id="full-table-of-contents">Full Table of Contents</h2>
+<ul>
+<li>Installing Fabric Binaries</li>
+<li>Start Fabric CA Process</li>
+<li>Create Certificates for Orderer Organization (Locate MSPs)</li>
+<li>Create Certificates for Peer Organizations (Locate MSPs)</li>
+<li>Create Genesis Block</li>
+<li>Start Up Orderer Nodes</li>
+<li>Start Up Peer Nodes</li>
+<li>Create and Join Channel</li>
+</ul>
+<h3 id="installing-fabric-binaries">Installing Fabric Binaries</h3>
+<ul>
+<li>
+<p>Binaries project (<a href="https://codeberg.org/richard-jo/rj-fabric-snippets.git">https://codeberg.org/richard-jo/rj-fabric-snippets.git</a>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://codeberg.org/richard-jo/rj-fabric-snippets.git
+</span></span><span style="display:flex;"><span>cd rj-fabric-snippets
+</span></span></code></pre></div></li>
+<li>
+<p>Download fabric binaries</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./install-bin.sh
+</span></span><span style="display:flex;"><span>cd ./bin
+</span></span></code></pre></div></li>
+<li>
+<p>Add bin directory of fabric excutables to PATH (bash)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>rj-fabric-snippets<span style="color:#e6db74">}</span><span style="color:#e6db74">/bin&#34;</span> &gt;&gt; ~/.bashrc
+</span></span></code></pre></div></li>
+<li>
+<p>Seting up local fabric network (single-org)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ./start.sh
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="start-fabric-ca-process">Start Fabric CA Process</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># start-ca.sh</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> startCA<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  export FABRIC_CA_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/fabric-ca-server
+</span></span><span style="display:flex;"><span>  export FABRIC_CA_SERVER_CA_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ca&#34;</span>
+</span></span><span style="display:flex;"><span>  export FABRIC_CA_SERVER_TLS_ENABLED<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>  export FABRIC_CA_SERVER_PORT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;7054&#34;</span>
+</span></span><span style="display:flex;"><span>  export FABRIC_CA_SERVER_CSR_CN<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ca&#34;</span>
+</span></span><span style="display:flex;"><span>  export FABRIC_CA_SERVER_CSR_HOSTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ca,localhost&#34;</span>
+</span></span><span style="display:flex;"><span>  export FABRIC_CA_SERVER_OPERATIONS_LISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0:7443&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;FABRIC_CA_HOME=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/organizations/fabric-ca-server&#34;</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;TEST_NETWORK: </span>$TEST_NETWORK<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;TEST_NETWORK_HOME: </span>$TEST_NETWORK_HOME<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;BIN_DIR: </span>$BIN_DIR<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;LOG_DIR: </span>$LOG_DIR<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  nohup <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-server start -b admin:adminpw &gt;&gt; <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>/fabric-ca-server.log &amp;
+</span></span><span style="display:flex;"><span>  pid<span style="color:#f92672">=</span>$!
+</span></span><span style="display:flex;"><span>  echo $pid &gt;pid/ca.pid
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;ok: </span>$?<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="create-certificates-for-orderer-organization--locate-msps">Create Certificates for Orderer Organization (Locate MSPs)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># enroll-orderer.sh</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export FABRIC_CA_CLIENT_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client enroll -u https://admin:adminpw@ca:7054 --caname ca --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/fabric-ca-server/tls-cert.pem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># # config</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;NodeOUs:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            Enable: true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            ClientOUIdentifier:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                Certificate: cacerts/ca-7054-ca.pem
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                OrganizationalUnitIdentifier: client
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            PeerOUIdentifier:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                Certificate: cacerts/ca-7054-ca.pem
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                OrganizationalUnitIdentifier: peer
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            AdminOUIdentifier:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                Certificate: cacerts/ca-7054-ca.pem
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                OrganizationalUnitIdentifier: admin
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            OrdererOUIdentifier:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                Certificate: cacerts/ca-7054-ca.pem
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                OrganizationalUnitIdentifier: orderer&#39;</span> &gt;<span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/msp/config.yaml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> var in <span style="color:#f92672">{</span>0..2<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  echo Registering orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client register -d --caname ca --id.name orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span> --id.secret orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>pw --id.type orderer --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/fabric-ca-server/tls-cert.pem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # get msp</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client enroll -d -u https://orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>:orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>pw@ca:7054 --caname ca -M <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/msp --csr.hosts <span style="color:#e6db74">${</span>TEST_NETWORK_NAME<span style="color:#e6db74">}</span>.orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com --csr.hosts localhost --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/fabric-ca-server/tls-cert.pem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/msp/config.yaml <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/msp/config.yaml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # get tls</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client enroll -d -u https://orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>:orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>pw@ca:7054 --caname ca -M <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/tls --enrollment.profile tls --csr.hosts <span style="color:#e6db74">${</span>TEST_NETWORK_NAME<span style="color:#e6db74">}</span>.orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com --csr.hosts localhost --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/fabric-ca-server/tls-cert.pem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # make crt files</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># ca public</span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/tls/tlscacerts/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/tls/ca.crt
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># node public</span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/tls/signcerts/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/tls/server.crt
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># node private</span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/tls/keystore/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/tls/server.key
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># tls-ca public -&gt; msp</span>
+</span></span><span style="display:flex;"><span>  mkdir -p <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/msp/tlscacerts
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/tls/tlscacerts/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># tls-ca public -&gt; common msp</span>
+</span></span><span style="display:flex;"><span>  mkdir -p <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/msp/tlscace
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.example.com/tls/tlscacerts/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client register --caname ca --id.name orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>Admin --id.secret orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>Adminpw --id.type admin --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/fabric-ca-server/tls-cert.pem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client enroll -u https://orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>Admin:orderer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>Adminpw@ca:7054 --caname ca -M <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/users/Admin@example.com/msp --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/fabric-ca-server/tls-cert.pem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/msp/config.yaml <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/config.yaml
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h3 id="create-certificates-for-peer-organizations--locate-msps">Create Certificates for Peer Organizations (Locate MSPs)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># enroll-peer.sh</span>
+</span></span><span style="display:flex;"><span>export FABRIC_CA_CLIENT_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/
+</span></span><span style="display:flex;"><span>local caTLSCertPath<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;fabric-ca-server/tls-cert.pem&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># # ca client</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Enrolling the CA admin&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client enroll -u https://admin:adminpw@ca:7054 --caname ca --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/<span style="color:#e6db74">${</span>caTLSCertPath<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;NodeOUs:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              Enable: true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              ClientOUIdentifier:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  Certificate: cacerts/ca-7054-ca.pem
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  OrganizationalUnitIdentifier: client
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              PeerOUIdentifier:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  Certificate: cacerts/ca-7054-ca.pem
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  OrganizationalUnitIdentifier: peer
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              AdminOUIdentifier:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  Certificate: cacerts/ca-7054-ca.pem
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  OrganizationalUnitIdentifier: admin
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              OrdererOUIdentifier:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  Certificate: cacerts/ca-7054-ca.pem
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  OrganizationalUnitIdentifier: orderer&#39;</span> &gt;<span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/msp/config.yaml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># admin account</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># # register and enroll admin</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client register --caname ca --id.name org1admin --id.secret org1adminpw --id.type admin --id.attrs <span style="color:#e6db74">&#39;&#34;hf.Registrar.Roles=admin&#34;,hf.Revoker=true&#39;</span> --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/<span style="color:#e6db74">${</span>caTLSCertPath<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># echo &#34;Generating the org admin msp&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client enroll -u https://org1admin:org1adminpw@ca:7054 --caname ca -M <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/<span style="color:#e6db74">${</span>caTLSCertPath<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/msp/config.yaml <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/config.yaml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># user1 account</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># # register and enroll admin</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client register --caname ca --id.name user1 --id.secret user1pw --id.type client --id.attrs <span style="color:#e6db74">&#39;&#34;hf.Registrar.Roles=client&#34;&#39;</span> --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/<span style="color:#e6db74">${</span>caTLSCertPath<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client enroll -u https://user1:user1pw@ca:7054 --caname ca -M <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/<span style="color:#e6db74">${</span>caTLSCertPath<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/msp/config.yaml <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/config.yaml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># peer accounts</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> var in <span style="color:#f92672">{</span>0..2<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  mkdir -p <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># peer node</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # register peer</span>
+</span></span><span style="display:flex;"><span>  echo Registering peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client register --caname ca --id.name peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span> --id.secret peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>pw --id.type peer --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/<span style="color:#e6db74">${</span>caTLSCertPath<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # get msp</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client enroll <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            -u https://peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>:peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>pw@ca:7054 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            --caname ca <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            -M <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/msp <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            --csr.hosts <span style="color:#e6db74">${</span>TEST_NETWORK_NAME<span style="color:#e6db74">}</span>.peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            --csr.hosts localhost <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/<span style="color:#e6db74">${</span>caTLSCertPath<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/msp/config.yaml <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/msp/config.yaml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># get tls</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/fabric-ca-client enroll <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            -u https://peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>:peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>pw@ca:7054 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            --caname ca <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            -M <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/tls <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            --enrollment.profile tls <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            --csr.hosts <span style="color:#e6db74">${</span>TEST_NETWORK_NAME<span style="color:#e6db74">}</span>.peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            --csr.hosts localhost <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>            --tls.certfiles <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/<span style="color:#e6db74">${</span>caTLSCertPath<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># make crt files</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # ca public</span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/tls/tlscacerts/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/tls/ca.crt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # node public</span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/tls/signcerts/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/tls/server.crt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # node private</span>
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/tls/keystore/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/tls/server.key
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#  tls-ca public -&gt; msp</span>
+</span></span><span style="display:flex;"><span>  mkdir -p <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/msp/tlscacerts
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/tls/tlscacerts/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/msp/tlscacerts/ca.crt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># tls-ca public -&gt; common msp</span>
+</span></span><span style="display:flex;"><span>  mkdir -p <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/tlsca
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/tls/tlscacerts/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># msp-ca public -&gt; common ca</span>
+</span></span><span style="display:flex;"><span>  mkdir -p <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/ca
+</span></span><span style="display:flex;"><span>  cp <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>.org1.example.com/msp/cacerts/* <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h3 id="start-up-orderer-nodes">Start Up Orderer Nodes</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># start-orderer.sh</span>
+</span></span><span style="display:flex;"><span>startOrderer<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  local ordererNum<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  : <span style="color:#e6db74">${</span>ordererNum:=0<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  ORDERER_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$ordererNum <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">50</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>  ORDERER_LISTEN_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$ordererNum <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">444</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>  FILE_LEDGER_LOC<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/production/orderers/orderer<span style="color:#e6db74">${</span>ordererNum<span style="color:#e6db74">}</span>.example.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export CORE_VM_ENDPOINT<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>  export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>  export FABRIC_LOGGING_SPEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;INFO&#34;</span>
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_LISTENADDRESS<span style="color:#f92672">=</span>0.0.0.0
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_LISTENPORT<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ORDERER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_BOOTSTRAPMETHOD<span style="color:#f92672">=</span>file
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_BOOTSTRAPFILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/channel-artifacts/genesis.block
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_LOCALMSPID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OrdererMSP&#34;</span>
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_LOCALMSPDIR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>ordererNum<span style="color:#e6db74">}</span>.example.com/msp
+</span></span><span style="display:flex;"><span>  export ORDERER_OPERATIONS_LISTENADDRESS<span style="color:#f92672">=</span>127.0.0.1:<span style="color:#e6db74">${</span>ORDERER_LISTEN_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # enabled TLS</span>
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_TLS_ENABLED<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_TLS_PRIVATEKEY<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>ordererNum<span style="color:#e6db74">}</span>.example.com/tls/server.key
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_TLS_CERTIFICATE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>ordererNum<span style="color:#e6db74">}</span>.example.com/tls/server.crt
+</span></span><span style="display:flex;"><span>  export ORDERER_GENERAL_TLS_ROOTCAS<span style="color:#f92672">=[</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/ordererOrganizations/example.com/orderers/orderer<span style="color:#e6db74">${</span>ordererNum<span style="color:#e6db74">}</span>.example.com/tls/ca.crt<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export ORDERER_FILELEDGER_LOCATION<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>FILE_LEDGER_LOC<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export ORDERER_CONSENSUS_WALDIR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>FILE_LEDGER_LOC<span style="color:#e6db74">}</span>/etcdraft/wal
+</span></span><span style="display:flex;"><span>  export ORDERER_CONSENSUS_SNAPDIR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>FILE_LEDGER_LOC<span style="color:#e6db74">}</span>/etcdraft/snapshot
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># ${BIN_DIR}/orderer</span>
+</span></span><span style="display:flex;"><span>  nohup /bin/sh -c <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/orderer &gt;&gt; <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>/orderer<span style="color:#e6db74">${</span>ordererNum<span style="color:#e6db74">}</span>.log &amp;
+</span></span><span style="display:flex;"><span>  pid<span style="color:#f92672">=</span>$!
+</span></span><span style="display:flex;"><span>  echo $pid &gt;pid/orderer<span style="color:#e6db74">${</span>ordererNum<span style="color:#e6db74">}</span>.pid
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;ok: </span>$?<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  sleep <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="start-up-peer-nodes">Start Up Peer Nodes</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> startPeer<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>  export FABRIC_CFG_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/config/peer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  local peerNum<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  : <span style="color:#e6db74">${</span>peerNum:=0<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  PEER_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$peerNum <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">51</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>  PEER_LISTEN_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$peerNum <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">445</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>  PEER_CHAINCODE_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$peerNum <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">52</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>  export FABRIC_LOGGING_SPEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;INFO&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># export FABRIC_LOGGING_SPEC=&#34;DEBUG&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_VM_ENDPOINT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># # enabled TLS</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_ENABLED<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>  export CORE_PEER_PROFILE_ENABLED<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>  export CORE_PEER_MSPCONFIGPATH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.org1.example.com/msp
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_CERT_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.org1.example.com/tls/server.crt
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_KEY_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.org1.example.com/tls/server.key
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_ROOTCERT_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.org1.example.com/tls/ca.crt
+</span></span><span style="display:flex;"><span>  export CORE_PEER_ID<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.org1.example.com
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># tls</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_ADDRESS<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_LISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_CHAINCODEADDRESS<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_CHAINCODE_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_CHAINCODELISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>:<span style="color:#e6db74">${</span>PEER_CHAINCODE_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_GOSSIP_BOOTSTRAP<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_GOSSIP_EXTERNALENDPOINT<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_LOCALMSPID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Org1MSP&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_OPERATIONS_LISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>:<span style="color:#e6db74">${</span>PEER_LISTEN_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_FILESYSTEMPATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/production/peers/peer</span><span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span><span style="color:#e6db74">.org1.example.com&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_LEDGER_SNAPSHOTS_ROOTDIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/production/peers/peer</span><span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span><span style="color:#e6db74">.org1.example.com/snapshots&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  pid<span style="color:#f92672">=</span>$!
+</span></span><span style="display:flex;"><span>  echo $pid &gt;pid/peer<span style="color:#e6db74">${</span>peerNum<span style="color:#e6db74">}</span>.pid
+</span></span><span style="display:flex;"><span>  sleep <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="create-and-join-channel">Create and Join Channel</h3>
+<ul>
+<li>
+<p>Create Channel</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> createChannel<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  DELAY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$2<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  : <span style="color:#e6db74">${</span>DELAY:=<span style="color:#e6db74">&#34;3&#34;</span><span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  MAX_RETRY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$3<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  : <span style="color:#e6db74">${</span>MAX_RETRY:=<span style="color:#e6db74">&#34;5&#34;</span><span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export FABRIC_CFG_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/config/peer
+</span></span><span style="display:flex;"><span>  export ORDERER_CA<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/organizations/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  PEER_NUM<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  : <span style="color:#e6db74">${</span>PEER_NUM:=0<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  PEER_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$PEER_NUM <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">51</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>  PEER_LISTEN_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$PEER_NUM <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">445</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>  PEER_CHAINCODE_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$PEER_NUM <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">52</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export FABRIC_LOGGING_SPEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;INFO&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># export FABRIC_LOGGING_SPEC=&#34;DEBUG&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_ENDORSER_ENABLED<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_ENABLED<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># export CORE_PEER_MSPCONFIGPATH=${TEST_NETWORK_HOME}/organizations/peerOrganizations/org1.example.com/peers/peer${PEER_NUM}.org1.example.com/msp</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_MSPCONFIGPATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_CERT_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com/tls/server.crt
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_KEY_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com/tls/server.key
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_ROOTCERT_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com/tls/ca.crt
+</span></span><span style="display:flex;"><span>  export CORE_PEER_ID<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># tls</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_ADDRESS<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_LISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_CHAINCODEADDRESS<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_CHAINCODE_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_CHAINCODELISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>:<span style="color:#e6db74">${</span>PEER_CHAINCODE_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_GOSSIP_BOOTSTRAP<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_GOSSIP_EXTERNALENDPOINT<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_LOCALMSPID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Org1MSP&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_OPERATIONS_LISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>:<span style="color:#e6db74">${</span>PEER_LISTEN_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_FILESYSTEMPATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/production/peers/peer</span><span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span><span style="color:#e6db74">.org1.example.com&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_LEDGER_SNAPSHOTS_ROOTDIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/production/peers/peer</span><span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span><span style="color:#e6db74">.org1.example.com/snapshots&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  CHANNEL_NAME<span style="color:#f92672">=</span>$1
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Poll in case the raft leader is not set yet</span>
+</span></span><span style="display:flex;"><span>  local rc<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  local COUNTER<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  local rc<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> ! -f <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/channel-artifacts/<span style="color:#e6db74">${</span>CHANNEL_NAME<span style="color:#e6db74">}</span>.block <span style="color:#f92672">]</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/peer channel create -o chN.orderer0.example.com:7050 --ordererTLSHostnameOverride chN.orderer0.example.com -c $CHANNEL_NAME -f <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/channel-artifacts/<span style="color:#e6db74">${</span>CHANNEL_NAME<span style="color:#e6db74">}</span>.tx --outputBlock <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/channel-artifacts/<span style="color:#e6db74">${</span>CHANNEL_NAME<span style="color:#e6db74">}</span>.block --tls --cafile $ORDERER_CA 2&gt;&amp;<span style="color:#ae81ff">1</span> &gt; /dev/null
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>CHANNEL_NAME<span style="color:#e6db74">}</span>.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    COUNTER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>expr $COUNTER + 1<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;COUNTER: </span>$COUNTER<span style="color:#e6db74"> times&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    sleep $DELAY
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># verifyResult ${rc} &#34;Channel creation failed&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Join Peer Nodes to the Channel</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> joinChannel<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  DELAY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;3&#34;</span>
+</span></span><span style="display:flex;"><span>  MAX_RETRY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;5&#34;</span>
+</span></span><span style="display:flex;"><span>  CHANNEL_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  setPeer <span style="color:#e6db74">${</span>2<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  local rc<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  local COUNTER<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">## Sometimes Join takes time, hence retry</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $rc -ne <span style="color:#ae81ff">0</span> -a $COUNTER -lt $MAX_RETRY <span style="color:#f92672">]</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    sleep $DELAY
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">${</span>BIN_DIR<span style="color:#e6db74">}</span>/peer channel join -b <span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/channel-artifacts/<span style="color:#e6db74">${</span>CHANNEL_NAME<span style="color:#e6db74">}</span>.block &gt;&amp;<span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>/peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>-<span style="color:#e6db74">${</span>CHANNEL_NAME<span style="color:#e6db74">}</span>.log
+</span></span><span style="display:flex;"><span>    res<span style="color:#f92672">=</span>$?
+</span></span><span style="display:flex;"><span>    rc<span style="color:#f92672">=</span>$res
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    COUNTER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>expr $COUNTER + 1<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;COUNTER: </span>$COUNTER<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  cat <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>/peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>-<span style="color:#e6db74">${</span>CHANNEL_NAME<span style="color:#e6db74">}</span>.log
+</span></span><span style="display:flex;"><span>  verifyResult $res <span style="color:#e6db74">&#34;After </span>$MAX_RETRY<span style="color:#e6db74"> attempts, peer</span><span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span><span style="color:#e6db74">.org1 has failed to join channel &#39;</span>$CHANNEL_NAME<span style="color:#e6db74">&#39;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> setPeer<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  PEER_NUM<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  PEER_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$PEER_NUM <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">51</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>  PEER_LISTEN_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$PEER_NUM <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">445</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>  PEER_CHAINCODE_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">((</span>$PEER_NUM <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">52</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export FABRIC_LOGGING_SPEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;INFO&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># export FABRIC_LOGGING_SPEC=&#34;DEBUG&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_ENDORSER_ENABLED<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_ENABLED<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># export CORE_PEER_MSPCONFIGPATH=${TEST_NETWORK_HOME}/organizations/peerOrganizations/org1.example.com/peers/peer${PEER_NUM}.org1.example.com/msp</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_MSPCONFIGPATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_CERT_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com/tls/server.crt
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_KEY_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com/tls/server.key
+</span></span><span style="display:flex;"><span>  export CORE_PEER_TLS_ROOTCERT_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span>/organizations/peerOrganizations/org1.example.com/peers/peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com/tls/ca.crt
+</span></span><span style="display:flex;"><span>  export CORE_PEER_ID<span style="color:#f92672">=</span>peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># tls</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_ADDRESS<span style="color:#f92672">=</span>chN.peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_LISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_CHAINCODEADDRESS<span style="color:#f92672">=</span>chN.peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_CHAINCODE_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_CHAINCODELISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>:<span style="color:#e6db74">${</span>PEER_CHAINCODE_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_GOSSIP_BOOTSTRAP<span style="color:#f92672">=</span>chN.peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_GOSSIP_EXTERNALENDPOINT<span style="color:#f92672">=</span>chN.peer<span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span>.org1.example.com:<span style="color:#e6db74">${</span>PEER_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_LOCALMSPID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Org1MSP&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_OPERATIONS_LISTENADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>:<span style="color:#e6db74">${</span>PEER_LISTEN_PORT<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  export CORE_PEER_FILESYSTEMPATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/production/peers/peer</span><span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span><span style="color:#e6db74">.org1.example.com&#34;</span>
+</span></span><span style="display:flex;"><span>  export CORE_LEDGER_SNAPSHOTS_ROOTDIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TEST_NETWORK_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/production/peers/peer</span><span style="color:#e6db74">${</span>PEER_NUM<span style="color:#e6db74">}</span><span style="color:#e6db74">.org1.example.com/snapshots&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div></li>
+</ul>
+
+</main>
+
+  <footer>
+  
+  
+  </footer>
+  </body>
+</html>
+
