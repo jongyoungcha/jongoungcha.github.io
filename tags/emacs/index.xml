@@ -6,21 +6,14 @@
     <description>Recent content in emacs on Richard Jo&#39;s journal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Sep 2023 00:00:00 +0900</lastBuildDate><atom:link href="https://jongyoungcha.github.io/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Sep 2023 00:00:00 +0900</lastBuildDate>
+    <atom:link href="https://jongyoungcha.github.io/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Emacs dap-mode debug with eglot-mode</title>
       <link>https://jongyoungcha.github.io/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/</link>
       <pubDate>Sun, 24 Sep 2023 00:00:00 +0900</pubDate>
-      
       <guid>https://jongyoungcha.github.io/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/</guid>
-      <description>dap-mode debug with eglot-mode 최근에 회사에서 typescript로 block-listener 어플리케이션을 debugging을 해야할 일이 생겼다. emacs예서 debugging 자주 사용하는 플러그인 dap-mode를 주로 사용한다.
-https://github.com/emacs-lsp/dap-mode
-MS에서 debug-server와 debug-client (ex: vscode, vim, emacs, sublime&amp;hellip;)들이 표준화된 방식으로 통신할 수 있는 방식으로 DAP(Debug Adapter Protocol)을 만들었다.
-당연히 MS에서 만든 vscode에서는 이 DAP을 사용한다.
-emacs내에서도 독립적으로 DAP을 사용하는 mode가 존재했으면 좋겠지만 불행히도 그렇지는 못한것 같다.
-dap-mode란 플러그인이 존재하는데, dap-client의 모든 기능을 emacs-lisp으로 다 구현한 것이 아닌
-vscode의 DAP 확장 플러그인을 호출하는 방식 같았다.</description>
+      <description>dap-mode debug with eglot-mode 최근에 회사에서 typescript로 block-listener 어플리케이션을 debugging을 해야할 일이 생겼다. emacs예서 debugging 자주 사용하는 플러그인 dap-mode를 주로 사용한다.&#xA;https://github.com/emacs-lsp/dap-mode&#xA;MS에서 debug-server와 debug-client (ex: vscode, vim, emacs, sublime&amp;hellip;)들이 표준화된 방식으로 통신할 수 있는 방식으로 DAP(Debug Adapter Protocol)을 만들었다.&#xA;당연히 MS에서 만든 vscode에서는 이 DAP을 사용한다.&#xA;emacs내에서도 독립적으로 DAP을 사용하는 mode가 존재했으면 좋겠지만 불행히도 그렇지는 못한것 같다.&#xA;dap-mode란 플러그인이 존재하는데, dap-client의 모든 기능을 emacs-lisp으로 다 구현한 것이 아닌&#xA;vscode의 DAP 확장 플러그인을 호출하는 방식 같았다.</description>
     </item>
-    
   </channel>
 </rss>
