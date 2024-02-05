@@ -6,8 +6,22 @@
     <description>Recent content on Richard Jo&#39;s journal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 05 Oct 2023 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 03 Feb 2024 00:00:00 +0900</lastBuildDate>
     <atom:link href="https://jongyoungcha.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rofi Configuration</title>
+      <link>https://jongyoungcha.github.io/posts/linux/rofi/</link>
+      <pubDate>Sat, 03 Feb 2024 00:00:00 +0900</pubDate>
+      <guid>https://jongyoungcha.github.io/posts/linux/rofi/</guid>
+      <description>Rofi Configuration Installation $ pacman -S rofi Add command to i3.conf $ vi ~/.config/i3/config # comment # bindsym $mod+d exec --no-startup-id dmenu_run # # add rofi bindsym $mod+d exec --no-startup-id rofi -show run Add paths want to use from rofi vi ~/.zprofile export PATH=$PATH:/home/witnessjo/richard-settings/scripts </description>
+    </item>
+    <item>
+      <title>Bitcoin Lightning Network (1)</title>
+      <link>https://jongyoungcha.github.io/posts/blockchain/lightning-network1/</link>
+      <pubDate>Wed, 31 Jan 2024 15:01:00 +0900</pubDate>
+      <guid>https://jongyoungcha.github.io/posts/blockchain/lightning-network1/</guid>
+      <description>Bitcoin Lightning Network (1) What is Bitcoin Lightning Network </description>
+    </item>
     <item>
       <title>Installing Fabric Binaries</title>
       <link>https://jongyoungcha.github.io/posts/hyperledger/startup-fabric-network/</link>

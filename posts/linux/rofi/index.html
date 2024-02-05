@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rofi Configuration | Richard Jo&#39;s journal</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/posts/profile">Profile</a></li>
+      
+      <li><a href="/categories">Categories</a></li>
+      
+      <li><a href="/tags">Tags</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Rofi Configuration</span></h1>
+<h2 class="author">[Witness Jo]</h2>
+<h2 class="date">2024/02/03</h2>
+</div>
+
+<main>
+<h2 id="rofi-configuration">Rofi Configuration</h2>
+<h4 id="installation">Installation</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ pacman -S rofi
+</span></span></code></pre></div><h4 id="add-command-to-i3-dot-conf">Add command to i3.conf</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vi ~/.config/i3/config
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># comment</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># bindsym $mod+d exec --no-startup-id dmenu_run</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># add rofi</span>
+</span></span><span style="display:flex;"><span>bindsym $mod+d exec --no-startup-id rofi -show run
+</span></span></code></pre></div><h4 id="add-paths-want-to-use-from-rofi">Add paths want to use from rofi</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vi ~/.zprofile
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$PATH:/home/witnessjo/richard-settings/scripts
+</span></span></code></pre></div>
+</main>
+
+  <footer>
+  
+  
+  </footer>
+  </body>
+</html>
+

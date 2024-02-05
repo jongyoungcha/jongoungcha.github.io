@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on Richard Jo&#39;s journal</title>
+    <link>https://jongyoungcha.github.io/tags/linux/</link>
+    <description>Recent content in linux on Richard Jo&#39;s journal</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 03 Feb 2024 00:00:00 +0900</lastBuildDate>
+    <atom:link href="https://jongyoungcha.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rofi Configuration</title>
+      <link>https://jongyoungcha.github.io/posts/linux/rofi/</link>
+      <pubDate>Sat, 03 Feb 2024 00:00:00 +0900</pubDate>
+      <guid>https://jongyoungcha.github.io/posts/linux/rofi/</guid>
+      <description>Rofi Configuration Installation $ pacman -S rofi Add command to i3.conf $ vi ~/.config/i3/config # comment # bindsym $mod+d exec --no-startup-id dmenu_run # # add rofi bindsym $mod+d exec --no-startup-id rofi -show run Add paths want to use from rofi vi ~/.zprofile export PATH=$PATH:/home/witnessjo/richard-settings/scripts </description>
+    </item>
+  </channel>
+</rss>

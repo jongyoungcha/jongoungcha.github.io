@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>blockchain on Richard Jo&#39;s journal</title>
+    <link>https://jongyoungcha.github.io/categories/blockchain/</link>
+    <description>Recent content in blockchain on Richard Jo&#39;s journal</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 31 Jan 2024 15:01:00 +0900</lastBuildDate>
+    <atom:link href="https://jongyoungcha.github.io/categories/blockchain/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bitcoin Lightning Network (1)</title>
+      <link>https://jongyoungcha.github.io/posts/blockchain/lightning-network1/</link>
+      <pubDate>Wed, 31 Jan 2024 15:01:00 +0900</pubDate>
+      <guid>https://jongyoungcha.github.io/posts/blockchain/lightning-network1/</guid>
+      <description>Bitcoin Lightning Network (1) What is Bitcoin Lightning Network </description>
+    </item>
+  </channel>
+</rss>
