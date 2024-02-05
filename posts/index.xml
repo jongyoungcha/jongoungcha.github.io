@@ -13,7 +13,7 @@
       <link>https://jongyoungcha.github.io/posts/linux/rofi/</link>
       <pubDate>Sat, 03 Feb 2024 00:00:00 +0900</pubDate>
       <guid>https://jongyoungcha.github.io/posts/linux/rofi/</guid>
-      <description>Rofi Configuration Installation $ pacman -S rofi Add command to i3.conf $ vi ~/.config/i3/config # comment # bindsym $mod+d exec --no-startup-id dmenu_run # # add rofi bindsym $mod+d exec --no-startup-id rofi -show run Add paths want to use from rofi vi ~/.zprofile export PATH=$PATH:/home/witnessjo/richard-settings/scripts </description>
+      <description>Rofi Configuration Installation $ pacman -S rofi Add command to i3.conf $ vi ~/.config/i3/config # comment # bindsym $mod+d exec --no-startup-id dmenu_run # # add rofi bindsym $mod+d exec --no-startup-id rofi -show run Add paths want to use from rofi $ vi ~/.zprofile export PATH=$PATH:/home/witnessjo/richard-settings/scripts </description>
     </item>
     <item>
       <title>Bitcoin Lightning Network (1)</title>
