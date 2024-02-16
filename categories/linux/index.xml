@@ -6,8 +6,15 @@
     <description>Recent content in linux on Richard Jo&#39;s journal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Feb 2024 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 16 Feb 2024 00:00:00 +0900</lastBuildDate>
     <atom:link href="https://jongyoungcha.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kmonad Configuration</title>
+      <link>https://jongyoungcha.github.io/posts/linux/kmonad/</link>
+      <pubDate>Fri, 16 Feb 2024 00:00:00 +0900</pubDate>
+      <guid>https://jongyoungcha.github.io/posts/linux/kmonad/</guid>
+      <description>Kmonad Configuration kmonad is a keyboard remapping configuration tool&#xA;supporting all OS platforms (Linux, OSX, Windows)&#xA;link: https://github.com/kmonad/kmonad&#xA;Installation (AUR) $ yay -S kmonad-bin Configuration for as a root service (it needs root authorization) $ sudo vi /etc/systemd/system/kmonad.service # kmonad.service file [Unit] Description=laptop keyboard kmonad After=network.target [Service] Type=simple ExecStart=/usr/bin/kmonad /home/witnessjo/richard-settings/.kmonad.kbd Restart=always User=root Group=root [Install] WantedBy=multi-user.target Start daemon and Make it enable # start kmonad service $ sudo systemctl start kmonad.service $ sudo systemctl status kmonad.</description>
+    </item>
     <item>
       <title>Rofi Configuration</title>
       <link>https://jongyoungcha.github.io/posts/linux/rofi/</link>

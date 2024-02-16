@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Richard Jo&#39;s journal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Feb 2024 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 16 Feb 2024 00:00:00 +0900</lastBuildDate>
     <atom:link href="https://jongyoungcha.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kmonad Configuration</title>
+      <link>https://jongyoungcha.github.io/posts/linux/kmonad/</link>
+      <pubDate>Fri, 16 Feb 2024 00:00:00 +0900</pubDate>
+      <guid>https://jongyoungcha.github.io/posts/linux/kmonad/</guid>
+      <description>Kmonad Configuration kmonad is a keyboard remapping configuration tool&#xA;supporting all OS platforms (Linux, OSX, Windows)&#xA;link: https://github.com/kmonad/kmonad&#xA;Installation (AUR) $ yay -S kmonad-bin Configuration for as a root service (it needs root authorization) $ sudo vi /etc/systemd/system/kmonad.service # kmonad.service file [Unit] Description=laptop keyboard kmonad After=network.target [Service] Type=simple ExecStart=/usr/bin/kmonad /home/witnessjo/richard-settings/.kmonad.kbd Restart=always User=root Group=root [Install] WantedBy=multi-user.target Start daemon and Make it enable # start kmonad service $ sudo systemctl start kmonad.service $ sudo systemctl status kmonad.</description>
+    </item>
     <item>
       <title>Rofi Configuration</title>
       <link>https://jongyoungcha.github.io/posts/linux/rofi/</link>
@@ -49,6 +56,13 @@
       <pubDate>Sat, 17 Oct 1987 00:00:00 +0900</pubDate>
       <guid>https://jongyoungcha.github.io/posts/profile/</guid>
       <description>Richard Jo, Developer&#xA;LinkedIn: https://www.linkedin.com/in/yeongchan-jo-37193a140 Github: https://github.com/witnessJo Codeberg: https://codeberg.org/witnessJo </description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://jongyoungcha.github.io/posts/wj-general/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jongyoungcha.github.io/posts/wj-general/</guid>
+      <description>;;; Code: ;;;&#xA;(use-package general :ensure t :config ;; Create a new definer for &amp;lt;space&amp;gt; leader key (general-create-definer wj/leader-keys :keymaps &amp;lsquo;(normal insert visual emacs) :prefix &amp;ldquo;SPC&amp;rdquo; :global-prefix &amp;ldquo;C-SPC&amp;rdquo;)&#xA;;; files (wj/leader-keys &amp;ldquo;f&amp;rdquo; &amp;lsquo;(:ignore t :which-key &amp;ldquo;files&amp;rdquo;) &amp;ldquo;ff&amp;rdquo; &amp;lsquo;(find-file :which-key &amp;ldquo;find file&amp;rdquo;) &amp;ldquo;fs&amp;rdquo; &amp;lsquo;(save-buffer :which-key &amp;ldquo;save file&amp;rdquo;) &amp;ldquo;fr&amp;rdquo; &amp;lsquo;(recentf-open-files :which-key &amp;ldquo;recent files&amp;rdquo;))&#xA;;; buffers (wj/leader-keys &amp;ldquo;m&amp;rdquo; &amp;lsquo;(:ignore t :which-key &amp;ldquo;buffers&amp;rdquo;) &amp;ldquo;mm&amp;rdquo; &amp;lsquo;(ivy-switch-buffer :which-key &amp;ldquo;switch buffer&amp;rdquo;) &amp;ldquo;m,&amp;rdquo; &amp;lsquo;(jong-window-display-buffer-right :which-key &amp;ldquo;switch right buffer&amp;rdquo;) &amp;ldquo;m.</description>
     </item>
   </channel>
 </rss>
