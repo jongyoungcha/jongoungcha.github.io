@@ -6,8 +6,15 @@
     <description>Recent content on Richard Jo&#39;s journal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Feb 2024 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 09 May 2024 17:05:16 +0900</lastBuildDate>
     <atom:link href="https://jongyoungcha.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Security Token Offering</title>
+      <link>https://jongyoungcha.github.io/posts/blockchain/sto-1/</link>
+      <pubDate>Sat, 04 May 2024 15:01:00 +0900</pubDate>
+      <guid>https://jongyoungcha.github.io/posts/blockchain/sto-1/</guid>
+      <description>전 회사에서 STO(Secutiry Token Offering)에 관해서 프로젝트를 진행했는데, 아직 모르고 있는 점이 많아서 따로 정리를 해 둬야겠다는 생각이 들었다. 그래서 이 문서를 작성한다.&#xA;STO(Security Token Offering) 란 이 문서에서는 STO 구현으로 논의되고 있는 유력한 두개의 표준 ERC-1400, ERC-3643에 대한 설명을 제공하고자 한다.&#xA;ERC-1400 ERC-1400은 ERC-20이나 ERC-777과 같은 기존 토큰 표준들과 호환성을 가지고 있음 ERC-1400의 하위 구성 ERC표준 4가지는 아래와 같다.&#xA;ERC-1410(Partial Fungible Token) 소유자의 토큰을 Partition 세트로 구성하기 위한 표준 인터페이스이다.</description>
+    </item>
     <item>
       <title>Kmonad Configuration</title>
       <link>https://jongyoungcha.github.io/posts/linux/kmonad/</link>
@@ -56,13 +63,6 @@
       <pubDate>Sat, 17 Oct 1987 00:00:00 +0900</pubDate>
       <guid>https://jongyoungcha.github.io/posts/profile/</guid>
       <description>Richard Jo, Developer LinkedIn: https://www.linkedin.com/in/yeongchan-jo-37193a140 Github: https://github.com/witnessJo Codeberg: https://codeberg.org/witnessJo Tech Stacks Langauges: Golang, Java/TypeScript, Java, C-plus, C, Shell Script DB: PostgresSQL, MariaDB, MongoDB, Redis Infra: Kubernetes, Docker, Kafka OS: Linux, OSX, Windows IDE: Emacs, VSCode, IntelliJ ETC: Hyperledger Fabric, Ethereum, BitCoin </description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://jongyoungcha.github.io/posts/wj-general/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://jongyoungcha.github.io/posts/wj-general/</guid>
-      <description>;;; Code: ;;;&#xA;(use-package general :ensure t :config ;; Create a new definer for &amp;lt;space&amp;gt; leader key (general-create-definer wj/leader-keys :keymaps &amp;lsquo;(normal insert visual emacs) :prefix &amp;ldquo;SPC&amp;rdquo; :global-prefix &amp;ldquo;C-SPC&amp;rdquo;)&#xA;;; files (wj/leader-keys &amp;ldquo;f&amp;rdquo; &amp;lsquo;(:ignore t :which-key &amp;ldquo;files&amp;rdquo;) &amp;ldquo;ff&amp;rdquo; &amp;lsquo;(find-file :which-key &amp;ldquo;find file&amp;rdquo;) &amp;ldquo;fs&amp;rdquo; &amp;lsquo;(save-buffer :which-key &amp;ldquo;save file&amp;rdquo;) &amp;ldquo;fr&amp;rdquo; &amp;lsquo;(recentf-open-files :which-key &amp;ldquo;recent files&amp;rdquo;))&#xA;;; buffers (wj/leader-keys &amp;ldquo;m&amp;rdquo; &amp;lsquo;(:ignore t :which-key &amp;ldquo;buffers&amp;rdquo;) &amp;ldquo;mm&amp;rdquo; &amp;lsquo;(ivy-switch-buffer :which-key &amp;ldquo;switch buffer&amp;rdquo;) &amp;ldquo;m,&amp;rdquo; &amp;lsquo;(jong-window-display-buffer-right :which-key &amp;ldquo;switch right buffer&amp;rdquo;) &amp;ldquo;m.</description>
     </item>
   </channel>
 </rss>

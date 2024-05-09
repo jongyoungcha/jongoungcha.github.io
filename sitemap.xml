@@ -2,8 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://jongyoungcha.github.io/tags/blockchain/</loc>
+    <lastmod>2024-05-09T17:05:16+09:00</lastmod>
+  </url><url>
+    <loc>https://jongyoungcha.github.io/categories/blockchain/</loc>
+    <lastmod>2024-05-09T17:05:16+09:00</lastmod>
+  </url><url>
     <loc>https://jongyoungcha.github.io/categories/</loc>
-    <lastmod>2024-02-16T16:02:28+09:00</lastmod>
+    <lastmod>2024-05-09T17:05:16+09:00</lastmod>
+  </url><url>
+    <loc>https://jongyoungcha.github.io/posts/</loc>
+    <lastmod>2024-05-09T17:05:16+09:00</lastmod>
+  </url><url>
+    <loc>https://jongyoungcha.github.io/</loc>
+    <lastmod>2024-05-09T17:05:16+09:00</lastmod>
+  </url><url>
+    <loc>https://jongyoungcha.github.io/posts/blockchain/sto-1/</loc>
+    <lastmod>2024-05-09T17:05:16+09:00</lastmod>
+  </url><url>
+    <loc>https://jongyoungcha.github.io/tags/</loc>
+    <lastmod>2024-05-09T17:05:16+09:00</lastmod>
   </url><url>
     <loc>https://jongyoungcha.github.io/posts/linux/kmonad/</loc>
     <lastmod>2024-02-16T16:02:28+09:00</lastmod>
@@ -14,25 +32,10 @@
     <loc>https://jongyoungcha.github.io/categories/linux/</loc>
     <lastmod>2024-02-16T16:02:28+09:00</lastmod>
   </url><url>
-    <loc>https://jongyoungcha.github.io/posts/</loc>
-    <lastmod>2024-02-20T14:01:30+09:00</lastmod>
-  </url><url>
-    <loc>https://jongyoungcha.github.io/</loc>
-    <lastmod>2024-02-20T14:01:30+09:00</lastmod>
-  </url><url>
-    <loc>https://jongyoungcha.github.io/tags/</loc>
-    <lastmod>2024-02-16T16:02:28+09:00</lastmod>
-  </url><url>
     <loc>https://jongyoungcha.github.io/posts/linux/rofi/</loc>
     <lastmod>2024-02-05T13:38:56+09:00</lastmod>
   </url><url>
     <loc>https://jongyoungcha.github.io/posts/blockchain/lightning-network1/</loc>
-    <lastmod>2024-02-05T13:38:01+09:00</lastmod>
-  </url><url>
-    <loc>https://jongyoungcha.github.io/tags/blockchain/</loc>
-    <lastmod>2024-02-05T13:38:01+09:00</lastmod>
-  </url><url>
-    <loc>https://jongyoungcha.github.io/categories/blockchain/</loc>
     <lastmod>2024-02-05T13:38:01+09:00</lastmod>
   </url><url>
     <loc>https://jongyoungcha.github.io/tags/hyperledger/</loc>
@@ -64,7 +67,5 @@
   </url><url>
     <loc>https://jongyoungcha.github.io/posts/profile/</loc>
     <lastmod>2024-02-20T14:01:30+09:00</lastmod>
-  </url><url>
-    <loc>https://jongyoungcha.github.io/posts/wj-general/</loc>
   </url>
 </urlset>

@@ -6,38 +6,38 @@
     <description>Recent content in Tags on Richard Jo&#39;s journal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Feb 2024 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 09 May 2024 17:05:16 +0900</lastBuildDate>
     <atom:link href="https://jongyoungcha.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>linux</title>
+      <title>Blockchain</title>
+      <link>https://jongyoungcha.github.io/tags/blockchain/</link>
+      <pubDate>Sat, 04 May 2024 15:01:00 +0900</pubDate>
+      <guid>https://jongyoungcha.github.io/tags/blockchain/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
       <link>https://jongyoungcha.github.io/tags/linux/</link>
       <pubDate>Fri, 16 Feb 2024 00:00:00 +0900</pubDate>
       <guid>https://jongyoungcha.github.io/tags/linux/</guid>
       <description></description>
     </item>
     <item>
-      <title>blockchain</title>
-      <link>https://jongyoungcha.github.io/tags/blockchain/</link>
-      <pubDate>Wed, 31 Jan 2024 15:01:00 +0900</pubDate>
-      <guid>https://jongyoungcha.github.io/tags/blockchain/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>hyperledger</title>
+      <title>Hyperledger</title>
       <link>https://jongyoungcha.github.io/tags/hyperledger/</link>
       <pubDate>Thu, 05 Oct 2023 00:00:00 +0900</pubDate>
       <guid>https://jongyoungcha.github.io/tags/hyperledger/</guid>
       <description></description>
     </item>
     <item>
-      <title>emacs</title>
+      <title>Emacs</title>
       <link>https://jongyoungcha.github.io/tags/emacs/</link>
       <pubDate>Sun, 24 Sep 2023 00:00:00 +0900</pubDate>
       <guid>https://jongyoungcha.github.io/tags/emacs/</guid>
       <description></description>
     </item>
     <item>
-      <title>java</title>
+      <title>Java</title>
       <link>https://jongyoungcha.github.io/tags/java/</link>
       <pubDate>Mon, 09 May 2022 15:00:00 +0900</pubDate>
       <guid>https://jongyoungcha.github.io/tags/java/</guid>

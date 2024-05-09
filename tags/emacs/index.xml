@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>emacs on Richard Jo&#39;s journal</title>
+    <title>Emacs on Richard Jo&#39;s journal</title>
     <link>https://jongyoungcha.github.io/tags/emacs/</link>
-    <description>Recent content in emacs on Richard Jo&#39;s journal</description>
+    <description>Recent content in Emacs on Richard Jo&#39;s journal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Sep 2023 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 26 Sep 2023 16:10:33 +0900</lastBuildDate>
     <atom:link href="https://jongyoungcha.github.io/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Emacs dap-mode debug with eglot-mode</title>

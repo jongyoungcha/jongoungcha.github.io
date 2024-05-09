@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Security Token Offering | Richard Jo&#39;s journal</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/posts/profile">Profile</a></li>
+      
+      <li><a href="/categories">Categories</a></li>
+      
+      <li><a href="/tags">Tags</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Security Token Offering</span></h1>
+<h2 class="author">[Witness Jo]</h2>
+<h2 class="date">2024/05/04</h2>
+</div>
+
+<main>
+<p>전 회사에서 STO(Secutiry Token Offering)에 관해서 프로젝트를 진행했는데, 아직
+모르고 있는 점이 많아서 따로 정리를 해 둬야겠다는 생각이 들었다. 그래서 이
+문서를 작성한다.</p>
+<h2 id="sto--security-token-offering--란">STO(Security Token Offering) 란</h2>
+<p>이 문서에서는 STO 구현으로 논의되고 있는 유력한 두개의 표준 ERC-1400, ERC-3643에
+대한 설명을 제공하고자 한다.</p>
+<h2 id="erc-1400">ERC-1400</h2>
+<p>ERC-1400은 ERC-20이나 ERC-777과 같은 기존 토큰 표준들과 호환성을 가지고 있음
+ERC-1400의 하위 구성 ERC표준 4가지는 아래와 같다.</p>
+<ul>
+<li>
+<p>ERC-1410(Partial Fungible Token)
+소유자의 토큰을 Partition 세트로 구성하기 위한 표준 인터페이스이다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">/// @title ERC-1410 Partially Fungible Token Standard
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// @dev See https://github.com/SecurityTokenStandard/EIP-Spec
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IERC1410</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Token Information
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">balanceOf</span>(<span style="color:#66d9ef">address</span> _tokenHolder) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">uint256</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">balanceOfByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _tokenHolder) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">uint256</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">partitionsOf</span>(<span style="color:#66d9ef">address</span> _tokenHolder) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bytes32</span>[]);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">totalSupply</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">uint256</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Token Transfers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transferByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">operatorTransferByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">bytes</span> _operatorData) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransferByPartition</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">bytes32</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Operator Information
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isOperator</span>(<span style="color:#66d9ef">address</span> _operator, <span style="color:#66d9ef">address</span> _tokenHolder) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isOperatorForPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _operator, <span style="color:#66d9ef">address</span> _tokenHolder) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Operator Management
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">authorizeOperator</span>(<span style="color:#66d9ef">address</span> _operator) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">revokeOperator</span>(<span style="color:#66d9ef">address</span> _operator) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">authorizeOperatorByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _operator) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">revokeOperatorByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _operator) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Issuance / Redemption
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">issueByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">redeemByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">operatorRedeemByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _operatorData) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Transfer Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">TransferByPartition</span>(
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _fromPartition,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">address</span> _operator,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _from,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _to,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">uint256</span> _value,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">bytes</span> _data,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">bytes</span> _operatorData
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Operator Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">AuthorizedOperator</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> tokenHolder);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">RevokedOperator</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> tokenHolder);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">AuthorizedOperatorByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> tokenHolder);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">RevokedOperatorByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> tokenHolder);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Issuance / Redemption Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">IssuedByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> to, <span style="color:#66d9ef">uint256</span> amount, <span style="color:#66d9ef">bytes</span> data, <span style="color:#66d9ef">bytes</span> operatorData);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">RedeemedByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> <span style="color:#66d9ef">from</span>, <span style="color:#66d9ef">uint256</span> amount, <span style="color:#66d9ef">bytes</span> operatorData);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>토큰이 partition 단위로 그룹화 된다. -&gt; 각 partiton 단위별로 어떤 행위가
+이루어지는지 좀 더 가시적으로 열람 할 수 있음</li>
+</ul>
+</li>
+<li>
+<p>ERC-1594(Core Security Token)
+전송/발행/상환 시 데이터의 오프체인의 추가적인 데이터를 입력받기 위한 기능과
+전송 시 유효성을 확인할 수 있는 기능을 제공하고 있음.</p>
+<p>전송 유효성을 확인하는 기능은 꼭 전송할 때 뿐만 아니라 다른 기능에서 필요로
+하면 해당 기능에서 사용 가능하다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">/// @title IERC1594 Security Token Standard
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// @dev See https://github.com/SecurityTokenStandard/EIP-Spec
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IERC1594</span> <span style="color:#66d9ef">is</span> IERC20 {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Transfers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transferWithData</span>(<span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transferFromWithData</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Token Issuance
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isIssuable</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">issue</span>(<span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Token Redemption
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">redeem</span>(<span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">redeemFrom</span>(<span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Transfer Validity
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransfer</span>(<span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>, <span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransferFrom</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>, <span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Issuance / Redemption Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">Issued</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">Redeemed</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _from, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>ERC-20에서는 transfer 시에 balanceOf, allowance 함수를 통해서 sender가
+현재 충분한 잔액을 가지고 있는지 체크를 한 이후에 거래가 이루어지는데,
+ERC-1594의 경우 sender나 receiver의 KYC여부 등 특수한 검증절차가
+추가적으로 필요함* 추가적인 체크 함수는 can canTransferByPartition 두 가지의
+함수가 추가되었음, 해당 두개의 함수는 boolean을 Return하는 것이 아니라
+byte32값을 리턴하고 값은 ERC-1066을 사용할수 있고 <a href="https://ethereum-magicians.org/t/erc-1066-ethereum-status-codes-esc/283/24">ERC-1066 Result Code</a>
+컨트랙트를 구현하는 사람이 임의적인 값을 지정 할 수도 있음</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">// Transfer Validity
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransfer</span>(<span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransferFrom</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransferByPartition</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">bytes32</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span></code></pre></div></li>
+<li>
+<p>기존의 일반적인 ERC-20의 transfer 확장되어서 transferWithData,
+transferFromData내에서 &ldquo;bytes _data&rdquo; 필드가 추가되었음, 해당 필드는
+오프체인(Off-chain)에서 추가적인 인자를 지원해주기 위한 필드로 data에
+입력되는 값의 형태는 ERC-1400의 표준에 벗어나는 부분이다. 따라서 구현자가
+임의적으로 값을 정해서 입력해도 된다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">// Transfers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transferWithData</span>(<span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transferFromWithData</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>ERC-1643(Document Management)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">/// @title IERC1643 Document Management (part of the ERC1400 Security Token Standards)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// @dev See https://github.com/SecurityTokenStandard/EIP-Spec
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IERC1643</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Document Management
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getDocument</span>(<span style="color:#66d9ef">bytes32</span> _name) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">bytes32</span>, <span style="color:#66d9ef">uint256</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setDocument</span>(<span style="color:#66d9ef">bytes32</span> _name, <span style="color:#66d9ef">string</span> _uri, <span style="color:#66d9ef">bytes32</span> _documentHash) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">removeDocument</span>(<span style="color:#66d9ef">bytes32</span> _name) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getAllDocuments</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bytes32</span>[]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Document Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">DocumentRemoved</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _name, <span style="color:#66d9ef">string</span> _uri, <span style="color:#66d9ef">bytes32</span> _documentHash);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">DocumentUpdated</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _name, <span style="color:#66d9ef">string</span> _uri, <span style="color:#66d9ef">bytes32</span> _documentHash);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>증권형 토큰에는 KYC에 관한 내용 등 다양한 문서들이 필요함, ERC-1643는
+이러한 문서들을 스마트 컨트랙트를 통해 성성, 제거, 수정 등의 동작을 수행
+할 수 있도록 정의한 표준임.</p>
+</li>
+<li>
+<p>DocumentUpdated, DocumentRemoved 등의 event를 통해 투자자들이 투자와
+관련된 문서의 변동사항에 대해서 알 수 있도록 구현되어 있음</p>
+</li>
+</ul>
+</li>
+</ul>
+<!-- raw HTML omitted -->
+<ul>
+<li>
+<p>ERC-1644(Controller Operation Token)
+토큰에 대한 강제 전송과 관련된 작업에 관련된 표준이다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">/// @title IERC1644 Controller Token Operation (part of the ERC1400 Security Token Standards)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// @dev See https://github.com/SecurityTokenStandard/EIP-Spec
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IERC1644</span> <span style="color:#66d9ef">is</span> IERC20 {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Controller Operation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isControllable</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">controllerTransfer</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">bytes</span> _operatorData) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">controllerRedeem</span>(<span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">bytes</span> _operatorData) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Controller Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ControllerTransfer</span>(
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">address</span> _controller,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _from,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _to,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">uint256</span> _value,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">bytes</span> _data,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">bytes</span> _operatorData
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ControllerRedemption</span>(
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">address</span> _controller,
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _tokenHolder,
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">uint256</span> _value,
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">bytes</span> _data,
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">bytes</span> _operatorData
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>증권형 토큰은 규제 및 법적 감독의 대상이기 때문에 특정한 주체가 토큰의
+전송을 강제 할 수 권한이 필요함, ERC-1644는 해당 기능을 정의하고 있음.</p>
+</li>
+<li>
+<p>컨트롤러(Controller)라는 주체를 생성 해당 계정에 강제전송 할 수 있는권한을
+부여해서 특정 거래가 부정적으로 이루어지거나 사용자가 개인키를 분실한 경우
+컨트롤러 계정을 통해서 강제적으로 수량을 보내거나 할 수 있음</p>
+</li>
+<li>
+<p>해당 기능을 구현한 함수는 controllerTransfer와 controllerRedeem 두 가지가
+있음, 각 각읳 함수에서는 ControllerTransfer, ControllerRedemption event를
+발생시킨다. 컨트롤러의 권한을 원하지 않는 함수의 경우 isControllable함수를
+구현 항상 False를 return하도록 하면 함수 실행 시에 revert가되어버림</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>아래는 ERC 1400가 정의하고 있는 전체 인터페이스이다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">/// @title IERC1400 Security Token Standard
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// @dev See https://github.com/SecurityTokenStandard/EIP-Spec
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IERC1400</span> <span style="color:#66d9ef">is</span> IERC20 {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Document Management
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getDocument</span>(<span style="color:#66d9ef">bytes32</span> _name) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setDocument</span>(<span style="color:#66d9ef">bytes32</span> _name, <span style="color:#66d9ef">string</span> _uri, <span style="color:#66d9ef">bytes32</span> _documentHash) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Token Information
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">balanceOfByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _tokenHolder) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">uint256</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">partitionsOf</span>(<span style="color:#66d9ef">address</span> _tokenHolder) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bytes32</span>[]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Transfers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transferWithData</span>(<span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transferFromWithData</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Partition Token Transfers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transferByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">operatorTransferByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">bytes</span> _operatorData) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Controller Operation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isControllable</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">controllerTransfer</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">bytes</span> _operatorData) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">controllerRedeem</span>(<span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">bytes</span> _operatorData) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Operator Management
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">authorizeOperator</span>(<span style="color:#66d9ef">address</span> _operator) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">revokeOperator</span>(<span style="color:#66d9ef">address</span> _operator) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">authorizeOperatorByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _operator) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">revokeOperatorByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _operator) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Operator Information
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isOperator</span>(<span style="color:#66d9ef">address</span> _operator, <span style="color:#66d9ef">address</span> _tokenHolder) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isOperatorForPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _operator, <span style="color:#66d9ef">address</span> _tokenHolder) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Token Issuance
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isIssuable</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">issue</span>(<span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">issueByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Token Redemption
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">redeem</span>(<span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">redeemFrom</span>(<span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">redeemByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">operatorRedeemByPartition</span>(<span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">address</span> _tokenHolder, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _operatorData) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Transfer Validity
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransfer</span>(<span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransferFrom</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransferByPartition</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">bytes32</span> _partition, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">bytes32</span>, <span style="color:#66d9ef">bytes32</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Controller Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ControllerTransfer</span>(
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">address</span> _controller,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _from,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _to,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">uint256</span> _value,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">bytes</span> _data,
+</span></span><span style="display:flex;"><span>                             <span style="color:#66d9ef">bytes</span> _operatorData
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ControllerRedemption</span>(
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">address</span> _controller,
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _tokenHolder,
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">uint256</span> _value,
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">bytes</span> _data,
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">bytes</span> _operatorData
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Document Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">Document</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _name, <span style="color:#66d9ef">string</span> _uri, <span style="color:#66d9ef">bytes32</span> _documentHash);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Transfer Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">TransferByPartition</span>(
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _fromPartition,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">address</span> _operator,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _from,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _to,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">uint256</span> _value,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">bytes</span> _data,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">bytes</span> _operatorData
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ChangedPartition</span>(
+</span></span><span style="display:flex;"><span>                           <span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _fromPartition,
+</span></span><span style="display:flex;"><span>                           <span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _toPartition,
+</span></span><span style="display:flex;"><span>                           <span style="color:#66d9ef">uint256</span> _value
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Operator Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">AuthorizedOperator</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _tokenHolder);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">RevokedOperator</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _tokenHolder);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">AuthorizedOperatorByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _tokenHolder);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">RevokedOperatorByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _tokenHolder);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Issuance / Redemption Events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">Issued</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">Redeemed</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _from, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">IssuedByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">bytes</span> _operatorData);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">RedeemedByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _from, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _operatorData);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="erc-3643">ERC-3643</h2>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://ethereum-magicians.org/t/erc-1066-ethereum-status-codes-esc/283/24">https://ethereum-magicians.org/t/erc-1066-ethereum-status-codes-esc/283/24</a></li>
+<li><a href="https://github.com/ndaxio/ERC1400">https://github.com/ndaxio/ERC1400</a></li>
+<li><a href="https://github.com/ethereum/eips/issues/1411">https://github.com/ethereum/eips/issues/1411</a></li>
+<li><a href="https://medium.com/decipher-media/sto-%EC%9D%B4%EB%8C%80%EB%A1%9C-%EA%B4%9C%EC%B0%AE%EC%9D%84%EA%B9%8C-%ED%95%98-d0163a98ac1e">https://medium.com/decipher-media/sto-%EC%9D%B4%EB%8C%80%EB%A1%9C-%EA%B4%9C%EC%B0%AE%EC%9D%84%EA%B9%8C-%ED%95%98-d0163a98ac1e</a></li>
+</ul>
+
+</main>
+
+  <footer>
+  
+  
+  </footer>
+  </body>
+</html>
+
