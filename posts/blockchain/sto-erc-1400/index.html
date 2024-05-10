@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Security Token Offering | Richard Jo&#39;s journal</title>
+    <title>Security Token Offering (ERC-1400) | Richard Jo&#39;s journal</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
     
@@ -26,7 +26,7 @@
     </nav>
 
 <div class="article-meta">
-<h1><span class="title">Security Token Offering</span></h1>
+<h1><span class="title">Security Token Offering (ERC-1400)</span></h1>
 <h2 class="author">[Witness Jo]</h2>
 <h2 class="date">2024/05/04</h2>
 </div>
@@ -35,10 +35,7 @@
 <p>전 회사에서 STO(Secutiry Token Offering)에 관해서 프로젝트를 진행했는데, 아직
 모르고 있는 점이 많아서 따로 정리를 해 둬야겠다는 생각이 들었다. 그래서 이
 문서를 작성한다.</p>
-<h2 id="sto--security-token-offering--란">STO(Security Token Offering) 란</h2>
-<p>이 문서에서는 STO 구현으로 논의되고 있는 유력한 두개의 표준 ERC-1400, ERC-3643에
-대한 설명을 제공하고자 한다.</p>
-<h2 id="erc-1400">ERC-1400</h2>
+<h2 id="security-token-offering--erc-1400">Security Token Offering (ERC-1400)</h2>
 <p>ERC-1400은 ERC-20이나 ERC-777과 같은 기존 토큰 표준들과 호환성을 가지고 있음
 ERC-1400의 하위 구성 ERC표준 4가지는 아래와 같다.</p>
 <ul>
@@ -222,7 +219,6 @@ transferFromData내에서 &ldquo;bytes _data&rdquo; 필드가 추가되었음, �
 </span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">bytes</span> _data,
 </span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">bytes</span> _operatorData
 </span></span><span style="display:flex;"><span>    );
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
 <li>
@@ -346,8 +342,7 @@ transferFromData내에서 &ldquo;bytes _data&rdquo; 필드가 추가되었음, �
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">IssuedByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">bytes</span> _operatorData);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">RedeemedByPartition</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> _partition, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _operator, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _from, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _operatorData);
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="erc-3643">ERC-3643</h2>
-<h2 id="references">References</h2>
+</span></span></code></pre></div><h2 id="references">References</h2>
 <ul>
 <li><a href="https://ethereum-magicians.org/t/erc-1066-ethereum-status-codes-esc/283/24">https://ethereum-magicians.org/t/erc-1066-ethereum-status-codes-esc/283/24</a></li>
 <li><a href="https://github.com/ndaxio/ERC1400">https://github.com/ndaxio/ERC1400</a></li>
