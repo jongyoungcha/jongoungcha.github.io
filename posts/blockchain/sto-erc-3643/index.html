@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Security Token Offering (ERC-3643) | Richard Jo&#39;s journal</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/posts/profile">Profile</a></li>
+      
+      <li><a href="/categories">Categories</a></li>
+      
+      <li><a href="/tags">Tags</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Security Token Offering (ERC-3643)</span></h1>
+<h2 class="author">[Witness Jo]</h2>
+<h2 class="date">2024/05/10</h2>
+</div>
+
+<main>
+<h2 id="security-token-offering--erc-3643">Security Token Offering (ERC-3643)</h2>
+<h3 id="구성요소-설명">구성요소 설명</h3>
+<h4 id="identify-with-onchaind">Identify with ONCHAIND</h4>
+<ol>
+<li>
+<p>온 체인 내에서 개인을 증명하는 수단, Identity Contract</p>
+</li>
+<li>
+<p><a href="https://docs.onchainid.com/docs/concepts/intro">ONCHAINID</a> 라는 시스템을 이용해서 지갑과 연결하는 것을 권장한다.</p>
+</li>
+<li>
+<p>ONCHAINID는 ERC-734, 735 두개의 표준 스마트 컨트랙트와 그와 관련된 Off-Chain 어플리케이션이다.</p>
+</li>
+<li>
+<p>ERC-734는 키의 보안과 유기적인 관리의 역할을 수행한다. 유저의 특정한 목적에 대한 public key를
+등록, 삭제, 조회 등 관리 역할을 하고 있다. 컨트랙트는 유저 소유이므로 만약에 사용자가 신원을
+추가한다면 새로운 유저에 대한 ERC-734 컨트랙트가 배포되는 것으로 볼 수 있다. (1:1 관계)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">pragma solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">4</span>.<span style="color:#ae81ff">18</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">contract</span> <span style="color:#a6e22e">ERC734</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">constant</span> MANAGEMENT_KEY <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">constant</span> EXECUTION_KEY <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">KeyAdded</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> key, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> purpose, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> keyType);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">KeyRemoved</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> key, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> purpose, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> keyType);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ExecutionRequested</span>(<span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> executionId, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> to, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> value, <span style="color:#66d9ef">bytes</span> data);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">Executed</span>(<span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> executionId, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> to, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> value, <span style="color:#66d9ef">bytes</span> data);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">Approved</span>(<span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> executionId, <span style="color:#66d9ef">bool</span> approved);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">KeysRequiredChanged</span>(<span style="color:#66d9ef">uint256</span> purpose, <span style="color:#66d9ef">uint256</span> number);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Key</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">uint256</span> purpose; <span style="color:#75715e">//e.g., MANAGEMENT_KEY = 1, EXECUTION_KEY = 2, etc.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">uint256</span> keyType; <span style="color:#75715e">// e.g. 1 = ECDSA, 2 = RSA, etc.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">bytes32</span> key;
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getKey</span>(<span style="color:#66d9ef">bytes32</span> _key) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">constant</span> <span style="color:#66d9ef">returns</span>(<span style="color:#66d9ef">uint256</span>[] purposes, <span style="color:#66d9ef">uint256</span> keyType, <span style="color:#66d9ef">bytes32</span> key);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">keyHasPurpose</span>(<span style="color:#66d9ef">bytes32</span> _key, <span style="color:#66d9ef">uint256</span> _purpose) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">constant</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span> exists);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getKeysByPurpose</span>(<span style="color:#66d9ef">uint256</span> _purpose) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">constant</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bytes32</span>[] keys);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">addKey</span>(<span style="color:#66d9ef">bytes32</span> _key, <span style="color:#66d9ef">uint256</span> _purpose, <span style="color:#66d9ef">uint256</span> _keyType) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span> success);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">removeKey</span>(<span style="color:#66d9ef">bytes32</span> _key, <span style="color:#66d9ef">uint256</span> _purpose) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span> success);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">changeKeysRequired</span>(<span style="color:#66d9ef">uint256</span> purpose, <span style="color:#66d9ef">uint256</span> number) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getKeysRequired</span>(<span style="color:#66d9ef">uint256</span> purpose) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span>(<span style="color:#66d9ef">uint256</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">execute</span>(<span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _value, <span style="color:#66d9ef">bytes</span> _data) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">uint256</span> executionId);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">approve</span>(<span style="color:#66d9ef">uint256</span> _id, <span style="color:#66d9ef">bool</span> _approve) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span> success);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>ERC-735는 키에 해당하는 claim(요청한 권리가 사용자의 정보 맞다는 증거)의 검증을 수행하는
+역할을 한다. 해당 컨트랙트를 사용하는 주체로는 기관을 예로 들 수 있을것이다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">pragma solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">4</span>.<span style="color:#ae81ff">18</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">contract</span> <span style="color:#a6e22e">ERC735</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ClaimRequested</span>(<span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> claimRequestId, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> topic, <span style="color:#66d9ef">uint256</span> scheme, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> issuer, <span style="color:#66d9ef">bytes</span> signature, <span style="color:#66d9ef">bytes</span> data, <span style="color:#66d9ef">string</span> uri);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ClaimAdded</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> claimId, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> topic, <span style="color:#66d9ef">uint256</span> scheme, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> issuer, <span style="color:#66d9ef">bytes</span> signature, <span style="color:#66d9ef">bytes</span> data, <span style="color:#66d9ef">string</span> uri);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ClaimRemoved</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> claimId, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> topic, <span style="color:#66d9ef">uint256</span> scheme, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> issuer, <span style="color:#66d9ef">bytes</span> signature, <span style="color:#66d9ef">bytes</span> data, <span style="color:#66d9ef">string</span> uri);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ClaimChanged</span>(<span style="color:#66d9ef">bytes32</span> <span style="color:#66d9ef">indexed</span> claimId, <span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">indexed</span> topic, <span style="color:#66d9ef">uint256</span> scheme, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> issuer, <span style="color:#66d9ef">bytes</span> signature, <span style="color:#66d9ef">bytes</span> data, <span style="color:#66d9ef">string</span> uri);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Claim</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">uint256</span> topic;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">uint256</span> scheme;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">address</span> issuer; <span style="color:#75715e">// msg.sender
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">bytes</span> signature; <span style="color:#75715e">// this.address + topic + data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">bytes</span> data;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">string</span> uri;
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getClaim</span>(<span style="color:#66d9ef">bytes32</span> _claimId) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">constant</span> <span style="color:#66d9ef">returns</span>(<span style="color:#66d9ef">uint256</span> topic, <span style="color:#66d9ef">uint256</span> scheme, <span style="color:#66d9ef">address</span> issuer, <span style="color:#66d9ef">bytes</span> signature, <span style="color:#66d9ef">bytes</span> data, <span style="color:#66d9ef">string</span> uri);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getClaimIdsByTopic</span>(<span style="color:#66d9ef">uint256</span> <span style="color:#66d9ef">_</span> topic) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">constant</span> <span style="color:#66d9ef">returns</span>(<span style="color:#66d9ef">bytes32</span>[] claimIds);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">addClaim</span>(<span style="color:#66d9ef">uint256</span> _topic, <span style="color:#66d9ef">uint256</span> _scheme, <span style="color:#66d9ef">address</span> _issuer, <span style="color:#66d9ef">bytes</span> _signature, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">string</span> _uri) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">uint256</span> claimRequestId);
+</span></span><span style="display:flex;"><span>    changeClaim(<span style="color:#66d9ef">bytes32</span> _claimId, <span style="color:#66d9ef">uint256</span> _topic, <span style="color:#66d9ef">uint256</span> _scheme, <span style="color:#66d9ef">address</span> _issuer, <span style="color:#66d9ef">bytes</span> _signature, <span style="color:#66d9ef">bytes</span> _data, <span style="color:#66d9ef">string</span> _uri) <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span> success);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">removeClaim</span>(<span style="color:#66d9ef">bytes32</span> _claimId) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span> success);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>usecase-ONCHAINID&gt; 해당 컨트랙트의 이용 예를 들면 Bob이 A기관의 인증된 개발자이고 A의 키들을
+관리할 수 있는 ERC-734 컨트랙트가 등록된다. 이후 ERC-734에 등록된 Bob의 public키 중 일부를
+이용해서 Signature를 생성, A기관이 등록한 ERC-735 컨트랙트에 Bob의 컨트랙트 주소와 Signature를
+함께 등록 할 수 있다.</p>
+</li>
+<li>
+<p>ONCHAINID에 저장되는 표준 데이터 외 민감한 데이터들은 블록체인에 보관하지 말고 Off-Chain에
+저장하도록 한다.</p>
+</li>
+</ol>
+<h4 id="registries">Registries</h4>
+<ol>
+<li>IdentityRegistry
+<ul>
+<li>1개의 증권형 토큰당 1개의 IdentityRegistry가 등록된다.</li>
+</ul>
+</li>
+<li>IdentityRegistryStorage
+<ul>
+<li>검증된 투자자들의 Identity 주소를 저장한다.</li>
+<li>하나 이상의 IdentityRegistry와 연결 될 수 있음 &ndash;&gt; n개의 IdentityRegistry가 1개의
+IdentityRegistryStorage 공유가능</li>
+<li>ERC-173 기반의 소유권을 사용하며, 컨트랙트 owner에 의해 임명된 agent가 identity를 등록/제거를
+권한을 소유함</li>
+</ul>
+</li>
+<li>ClaimTopicRegistry
+<ul>
+<li>증권형 토큰의 신뢰 가능한 claim topic들, 개개인이 증권형 토큰을 거래하기 위해 어떠한 증명서들을
+필요로 하는지가 저장되었음</li>
+</ul>
+</li>
+<li>TrustedIssuerRegistry
+<ul>
+<li>claim topic들에 대한 claim을 발행하는 주체들의 주소를 저장하고 있는 컨트랙트</li>
+<li>Identity는 유저가 증권형 토큰을 거래하고 소유하기 위해 이 레지스트리 컨트랙트에 저장된
+발행자들의 서명이 필요함</li>
+</ul>
+</li>
+</ol>
+<h4 id="compliance-contract">Compliance Contract</h4>
+<ol>
+<li>거래가 토큰에 대해 확립된 Rule을 준수했는지 검사하는 컨트랙트</li>
+<li>Rule의 예를 몇가지 들자면 (국가당 최대 투자자 수, 투자자당 최대 토큰 금액, 토큰 유통에 허용되는
+국가(IdentityRegistry 에서 투자자의 정보를 가져온 다음 국가코드 열람)) 등 과 같은 것들이 있을 수
+있음</li>
+<li>각 토큰 발행자에 따라서 토큰에 대한 요구 사항이 다를 수 있기 때문에 Compliance 개체를 생성한 이후
+n개의 토큰을 한개의 Compliance에 등록, 제거를 수행할 수 있다.</li>
+<li>모든 토큰 거래는 ICompliance의 canTransfer를 수행해야 하며 TRUE를 Return해야지 거래가 가능하다.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ICompliance</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">TokenBound</span>(<span style="color:#66d9ef">address</span> _token);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">TokenUnbound</span>(<span style="color:#66d9ef">address</span> _token);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// functions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// initialization of the compliance contract
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">bindToken</span>(<span style="color:#66d9ef">address</span> _token) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">unbindToken</span>(<span style="color:#66d9ef">address</span> _token) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// check the parameters of the compliance contract
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isTokenBound</span>(<span style="color:#66d9ef">address</span> _token) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getTokenBound</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">address</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// compliance check and state update
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">canTransfer</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transferred</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">created</span>(<span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">destroyed</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ol>
+<h4 id="security-token-contract">Security Token Contract</h4>
+<ol>
+<li>
+<p>Security Token과 Utility Token의 차이</p>
+<ul>
+<li>Security Token: 자산, 주식, 채권 등의 금융 상품을 디지털화한 것으로 토큰 소유자는 해당 자산에 대한</li>
+<li>Utility Token: 특정 네트워크에서 제공하는 서비스나 재화에 대한 이용권리를 내제하고 있는 토큰
+소유권, 배당금, 이자 등의 권리를 가질 수 있음</li>
+</ul>
+</li>
+<li>
+<p>Security Contract는 Identity Registry와 상호작용하여 투자자의 적합성을 체크하고 토큰을 소유를
+활성화 및 거래를 수행한다.</p>
+</li>
+<li>
+<p>하나의 증권 종목당  Security Token Contract가 업데이트 된다. (1:1)</p>
+</li>
+<li>
+<p>기본적으로 ERC-20표준을 바탕으로 구현되어 호환성을 가지도록 설계되어 있음, 다만 transfer이 이루어
+지기 전에 Identity나 Compliance 컨트랙트를 통해서 사전 조건을 확인하고 이를 만족 할 경우에만
+거래가 이루어짐</p>
+</li>
+<li>
+<p>몇 가지 특이한 기능들</p>
+<ul>
+<li>freezePartialTokens: 증권형 토큰의 특성상 관리자에 의해 철저히 관리되기 위한 장치들이 필요하다.
+freezePartialTokens()를 수행해서 특정 지갑이 소유한 토큰을 freeze 할 수 있음</li>
+<li>pause: 컨트랙트에서 다루고 있는 토큰의 모든 거래를 일시적으로 중단할 수 있다.</li>
+<li>recoverAddress: private키 분실이나 wallet 해킹 등을 당한 투자자들을 위한 recovery 장치 역시
+recoveryAddress 함수로 구현되어 있음.</li>
+</ul>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IERC3643</span> <span style="color:#66d9ef">is</span> IERC20 {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">UpdatedTokenInformation</span>(<span style="color:#66d9ef">string</span> _newName, <span style="color:#66d9ef">string</span> _newSymbol, <span style="color:#66d9ef">uint8</span> _newDecimals, <span style="color:#66d9ef">string</span> _newVersion, <span style="color:#66d9ef">address</span> _newOnchainID);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">IdentityRegistryAdded</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _identityRegistry);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">ComplianceAdded</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _compliance);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">RecoverySuccess</span>(<span style="color:#66d9ef">address</span> _lostWallet, <span style="color:#66d9ef">address</span> _newWallet, <span style="color:#66d9ef">address</span> _investorOnchainID);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">AddressFrozen</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _userAddress, <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">indexed</span> _isFrozen, <span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _owner);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">TokensFrozen</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _userAddress, <span style="color:#66d9ef">uint256</span> _amount);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">TokensUnfrozen</span>(<span style="color:#66d9ef">address</span> <span style="color:#66d9ef">indexed</span> _userAddress, <span style="color:#66d9ef">uint256</span> _amount);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">Paused</span>(<span style="color:#66d9ef">address</span> _userAddress);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event</span> <span style="color:#a6e22e">Unpaused</span>(<span style="color:#66d9ef">address</span> _userAddress);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// functions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// getters
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">onchainID</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">address</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">version</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">string</span> <span style="color:#66d9ef">memory</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">identityRegistry</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (IIdentityRegistry);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">compliance</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (ICompliance);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">paused</span>() <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isFrozen</span>(<span style="color:#66d9ef">address</span> _userAddress) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getFrozenTokens</span>(<span style="color:#66d9ef">address</span> _userAddress) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">view</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">uint256</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// setters
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setName</span>(<span style="color:#66d9ef">string</span> calldata _name) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setSymbol</span>(<span style="color:#66d9ef">string</span> calldata _symbol) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setOnchainID</span>(<span style="color:#66d9ef">address</span> _onchainID) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">pause</span>() <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">unpause</span>() <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setAddressFrozen</span>(<span style="color:#66d9ef">address</span> _userAddress, <span style="color:#66d9ef">bool</span> _freeze) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">freezePartialTokens</span>(<span style="color:#66d9ef">address</span> _userAddress, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">unfreezePartialTokens</span>(<span style="color:#66d9ef">address</span> _userAddress, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setIdentityRegistry</span>(<span style="color:#66d9ef">address</span> _identityRegistry) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setCompliance</span>(<span style="color:#66d9ef">address</span> _compliance) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// transfer actions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">forcedTransfer</span>(<span style="color:#66d9ef">address</span> _from, <span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">mint</span>(<span style="color:#66d9ef">address</span> _to, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">burn</span>(<span style="color:#66d9ef">address</span> _userAddress, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">recoveryAddress</span>(<span style="color:#66d9ef">address</span> _lostWallet, <span style="color:#66d9ef">address</span> _newWallet, <span style="color:#66d9ef">address</span> _investorOnchainID) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// batch functions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">batchTransfer</span>(<span style="color:#66d9ef">address</span>[] calldata _toList, <span style="color:#66d9ef">uint256</span>[] calldata _amounts) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">batchForcedTransfer</span>(<span style="color:#66d9ef">address</span>[] calldata _fromList, <span style="color:#66d9ef">address</span>[] calldata _toList, <span style="color:#66d9ef">uint256</span>[] calldata _amounts) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">batchMint</span>(<span style="color:#66d9ef">address</span>[] calldata _toList, <span style="color:#66d9ef">uint256</span>[] calldata _amounts) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">batchBurn</span>(<span style="color:#66d9ef">address</span>[] calldata _userAddresses, <span style="color:#66d9ef">uint256</span>[] calldata _amounts) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">batchSetAddressFrozen</span>(<span style="color:#66d9ef">address</span>[] calldata _userAddresses, <span style="color:#66d9ef">bool</span>[] calldata _freeze) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">batchFreezePartialTokens</span>(<span style="color:#66d9ef">address</span>[] calldata _userAddresses, <span style="color:#66d9ef">uint256</span>[] calldata _amounts) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">batchUnfreezePartialTokens</span>(<span style="color:#66d9ef">address</span>[] calldata _userAddresses, <span style="color:#66d9ef">uint256</span>[] calldata _amounts) <span style="color:#66d9ef">external</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="usecases">Usecases</h3>
+<h4 id="artifacts">Artifacts</h4>
+<h4 id="case-1-투자자들-등록">case 1: 투자자들 등록</h4>
+<h4 id="case-2-종목-등록-및-발행">case 2: 종목 등록 및 발행</h4>
+<h4 id="case-3-종목-거래">case 3: 종목 거래</h4>
+<h4 id="case-4-거래-정지">case 4: 거래 정지</h4>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/TokenySolutions/T-REX">https://github.com/TokenySolutions/T-REX</a></li>
+<li><a href="https://eips.ethereum.org/EIPS/eip-3643">https://eips.ethereum.org/EIPS/eip-3643</a></li>
+<li><a href="https://medium.com/decipher-media/sto-%EC%9D%B4%EB%8C%80%EB%A1%9C-%EA%B4%9C%EC%B0%AE%EC%9D%84%EA%B9%8C-%ED%95%98-d0163a98ac1e">https://medium.com/decipher-media/sto-%EC%9D%B4%EB%8C%80%EB%A1%9C-%EA%B4%9C%EC%B0%AE%EC%9D%84%EA%B9%8C-%ED%95%98-d0163a98ac1e</a></li>
+<li><a href="https://ethereum.stackexchange.com/questions/148806/how-to-deploy-a-token-using-the-erc-3643-standard">https://ethereum.stackexchange.com/questions/148806/how-to-deploy-a-token-using-the-erc-3643-standard</a></li>
+</ul>
+
+</main>
+
+  <footer>
+  
+  
+  </footer>
+  </body>
+</html>
+

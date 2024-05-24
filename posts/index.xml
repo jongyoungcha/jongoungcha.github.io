@@ -2,66 +2,73 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Richard Jo&#39;s journal</title>
-    <link>https://jongyoungcha.github.io/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on Richard Jo&#39;s journal</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 May 2024 16:46:43 +0900</lastBuildDate>
-    <atom:link href="https://jongyoungcha.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 May 2024 14:19:29 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Security Token Offering (ERC-3643)</title>
+      <link>http://localhost:1313/posts/blockchain/sto-erc-3643/</link>
+      <pubDate>Fri, 10 May 2024 15:01:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/blockchain/sto-erc-3643/</guid>
+      <description>Security Token Offering (ERC-3643) 구성요소 설명 Identify with ONCHAIND 온 체인 내에서 개인을 증명하는 수단, Identity Contract&#xA;ONCHAINID 라는 시스템을 이용해서 지갑과 연결하는 것을 권장한다.&#xA;ONCHAINID는 ERC-734, 735 두개의 표준 스마트 컨트랙트와 그와 관련된 Off-Chain 어플리케이션이다.&#xA;ERC-734는 키의 보안과 유기적인 관리의 역할을 수행한다. 유저의 특정한 목적에 대한 public key를 등록, 삭제, 조회 등 관리 역할을 하고 있다. 컨트랙트는 유저 소유이므로 만약에 사용자가 신원을 추가한다면 새로운 유저에 대한 ERC-734 컨트랙트가 배포되는 것으로 볼 수 있다.</description>
+    </item>
     <item>
       <title>Security Token Offering (ERC-1400)</title>
-      <link>https://jongyoungcha.github.io/posts/blockchain/sto-erc-1400/</link>
+      <link>http://localhost:1313/posts/blockchain/sto-erc-1400/</link>
       <pubDate>Sat, 04 May 2024 15:01:00 +0900</pubDate>
-      <guid>https://jongyoungcha.github.io/posts/blockchain/sto-erc-1400/</guid>
+      <guid>http://localhost:1313/posts/blockchain/sto-erc-1400/</guid>
       <description>전 회사에서 STO(Secutiry Token Offering)에 관해서 프로젝트를 진행했는데, 아직 모르고 있는 점이 많아서 따로 정리를 해 둬야겠다는 생각이 들었다. 그래서 이 문서를 작성한다.&#xA;Security Token Offering (ERC-1400) ERC-1400은 ERC-20이나 ERC-777과 같은 기존 토큰 표준들과 호환성을 가지고 있음 ERC-1400의 하위 구성 ERC표준 4가지는 아래와 같다.&#xA;ERC-1410(Partial Fungible Token) 소유자의 토큰을 Partition 세트로 구성하기 위한 표준 인터페이스이다.&#xA;/// @title ERC-1410 Partially Fungible Token Standard /// @dev See https://github.com/SecurityTokenStandard/EIP-Spec interface IERC1410 { // Token Information function balanceOf(address _tokenHolder) external view returns (uint256); function balanceOfByPartition(bytes32 _partition, address _tokenHolder) external view returns (uint256); function partitionsOf(address _tokenHolder) external view returns (bytes32[]); function totalSupply() external view returns (uint256); // Token Transfers function transferByPartition(bytes32 _partition, address _to, uint256 _value, bytes _data) external returns (bytes32); function operatorTransferByPartition(bytes32 _partition, address _from, address _to, uint256 _value, bytes _data, bytes _operatorData) external returns (bytes32); function canTransferByPartition(address _from, address _to, bytes32 _partition, uint256 _value, bytes _data) external view returns (byte, bytes32, bytes32); // Operator Information function isOperator(address _operator, address _tokenHolder) external view returns (bool); function isOperatorForPartition(bytes32 _partition, address _operator, address _tokenHolder) external view returns (bool); // Operator Management function authorizeOperator(address _operator) external; function revokeOperator(address _operator) external; function authorizeOperatorByPartition(bytes32 _partition, address _operator) external; function revokeOperatorByPartition(bytes32 _partition, address _operator) external; // Issuance / Redemption function issueByPartition(bytes32 _partition, address _tokenHolder, uint256 _value, bytes _data) external; function redeemByPartition(bytes32 _partition, uint256 _value, bytes _data) external; function operatorRedeemByPartition(bytes32 _partition, address _tokenHolder, uint256 _value, bytes _operatorData) external; // Transfer Events event TransferByPartition( bytes32 indexed _fromPartition, address _operator, address indexed _from, address indexed _to, uint256 _value, bytes _data, bytes _operatorData ); // Operator Events event AuthorizedOperator(address indexed operator, address indexed tokenHolder); event RevokedOperator(address indexed operator, address indexed tokenHolder); event AuthorizedOperatorByPartition(bytes32 indexed partition, address indexed operator, address indexed tokenHolder); event RevokedOperatorByPartition(bytes32 indexed partition, address indexed operator, address indexed tokenHolder); // Issuance / Redemption Events event IssuedByPartition(bytes32 indexed partition, address indexed operator, address indexed to, uint256 amount, bytes data, bytes operatorData); event RedeemedByPartition(bytes32 indexed partition, address indexed operator, address indexed from, uint256 amount, bytes operatorData); } 토큰이 partition 단위로 그룹화 된다.</description>
     </item>
     <item>
       <title>Kmonad Configuration</title>
-      <link>https://jongyoungcha.github.io/posts/linux/kmonad/</link>
+      <link>http://localhost:1313/posts/linux/kmonad/</link>
       <pubDate>Fri, 16 Feb 2024 00:00:00 +0900</pubDate>
-      <guid>https://jongyoungcha.github.io/posts/linux/kmonad/</guid>
+      <guid>http://localhost:1313/posts/linux/kmonad/</guid>
       <description>Kmonad Configuration kmonad is a keyboard remapping configuration tool&#xA;supporting all OS platforms (Linux, OSX, Windows)&#xA;link: https://github.com/kmonad/kmonad&#xA;Installation (AUR) $ yay -S kmonad-bin Configuration for as a root service (it needs root authorization) $ sudo vi /etc/systemd/system/kmonad.service # kmonad.service file [Unit] Description=laptop keyboard kmonad After=network.target [Service] Type=simple ExecStart=/usr/bin/kmonad /home/witnessjo/richard-settings/.kmonad.kbd Restart=always User=root Group=root [Install] WantedBy=multi-user.target Edit your kmonad configuration file (defcfg ;; For Linux input (device-file &amp;#34;/dev/input/by-path/platform-i8042-serio-0-event-kbd&amp;#34;) output (uinput-sink &amp;#34;My KMonad output&amp;#34; ;; To understand the importance of the following line, see the section on ;; Compose-key sequences at the near-bottom of this file.</description>
     </item>
     <item>
       <title>Rofi Configuration</title>
-      <link>https://jongyoungcha.github.io/posts/linux/rofi/</link>
+      <link>http://localhost:1313/posts/linux/rofi/</link>
       <pubDate>Sat, 03 Feb 2024 00:00:00 +0900</pubDate>
-      <guid>https://jongyoungcha.github.io/posts/linux/rofi/</guid>
+      <guid>http://localhost:1313/posts/linux/rofi/</guid>
       <description>Rofi Configuration Installation $ pacman -S rofi Add command to i3.conf $ vi ~/.config/i3/config # comment # bindsym $mod+d exec --no-startup-id dmenu_run # # add rofi bindsym $mod+d exec --no-startup-id rofi -show run Add paths want to use from rofi $ vi ~/.zprofile export PATH=$PATH:/home/witnessjo/richard-settings/scripts </description>
     </item>
     <item>
       <title>Bitcoin Lightning Network (1)</title>
-      <link>https://jongyoungcha.github.io/posts/blockchain/lightning-network1/</link>
+      <link>http://localhost:1313/posts/blockchain/lightning-network1/</link>
       <pubDate>Wed, 31 Jan 2024 15:01:00 +0900</pubDate>
-      <guid>https://jongyoungcha.github.io/posts/blockchain/lightning-network1/</guid>
+      <guid>http://localhost:1313/posts/blockchain/lightning-network1/</guid>
       <description>Bitcoin Lightning Network (1) What is Bitcoin Lightning Network </description>
     </item>
     <item>
       <title>Installing Fabric Binaries</title>
-      <link>https://jongyoungcha.github.io/posts/hyperledger/startup-fabric-network/</link>
+      <link>http://localhost:1313/posts/hyperledger/startup-fabric-network/</link>
       <pubDate>Thu, 05 Oct 2023 00:00:00 +0900</pubDate>
-      <guid>https://jongyoungcha.github.io/posts/hyperledger/startup-fabric-network/</guid>
+      <guid>http://localhost:1313/posts/hyperledger/startup-fabric-network/</guid>
       <description>Full Table of Contents Installing Fabric Binaries Start Fabric CA Process Create Certificates for Orderer Organization (Locate MSPs) Create Certificates for Peer Organizations (Locate MSPs) Create Genesis Block Start Up Orderer Nodes Start Up Peer Nodes Create and Join Channel Installing Fabric Binaries Binaries project (https://codeberg.org/richard-jo/rj-fabric-snippets.git)&#xA;git clone https://codeberg.org/richard-jo/rj-fabric-snippets.git cd rj-fabric-snippets Download fabric binaries&#xA;./install-bin.sh cd ./bin Add bin directory of fabric excutables to PATH (bash)&#xA;echo &amp;#34;${rj-fabric-snippets}/bin&amp;#34; &amp;gt;&amp;gt; ~/.bashrc Seting up local fabric network (single-org)</description>
     </item>
     <item>
       <title>Emacs dap-mode debug with eglot-mode</title>
-      <link>https://jongyoungcha.github.io/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/</link>
+      <link>http://localhost:1313/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/</link>
       <pubDate>Sun, 24 Sep 2023 00:00:00 +0900</pubDate>
-      <guid>https://jongyoungcha.github.io/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/</guid>
+      <guid>http://localhost:1313/posts/emacs/dap-mode_debugging_with_eglot-mode_20230924/</guid>
       <description>dap-mode debug with eglot-mode 최근에 회사에서 typescript로 block-listener 어플리케이션을 debugging을 해야할 일이 생겼다. emacs예서 debugging 자주 사용하는 플러그인 dap-mode를 주로 사용한다.&#xA;https://github.com/emacs-lsp/dap-mode&#xA;MS에서 debug-server와 debug-client (ex: vscode, vim, emacs, sublime&amp;hellip;)들이 표준화된 방식으로 통신할 수 있는 방식으로 DAP(Debug Adapter Protocol)을 만들었다.&#xA;당연히 MS에서 만든 vscode에서는 이 DAP을 사용한다.&#xA;emacs내에서도 독립적으로 DAP을 사용하는 mode가 존재했으면 좋겠지만 불행히도 그렇지는 못한것 같다.&#xA;dap-mode란 플러그인이 존재하는데, dap-client의 모든 기능을 emacs-lisp으로 다 구현한 것이 아닌&#xA;vscode의 DAP 확장 플러그인을 호출하는 방식 같았다.</description>
     </item>
     <item>
       <title>JAVA Coding Convention</title>
-      <link>https://jongyoungcha.github.io/posts/java/java_convention_20220509/</link>
+      <link>http://localhost:1313/posts/java/java_convention_20220509/</link>
       <pubDate>Mon, 09 May 2022 15:00:00 +0900</pubDate>
-      <guid>https://jongyoungcha.github.io/posts/java/java_convention_20220509/</guid>
+      <guid>http://localhost:1313/posts/java/java_convention_20220509/</guid>
       <description>Why 이번에 새로이 PG프로젝트가 진행되었다. 그러나 프로젝트 시작 시 미리 코딩컨벤션에 대한 이야기가 되어있지 않았다. 그래서 각 프로젝트 마다 각기 다른 코딩스타일로 작성이 되어버렸다. 이를 통일하기 위해서 Java를 위한 코딩 컨벤션을 정의하고자 한다.&#xA;Defined Rules Package Structure 패키지를 분류하면 아래의 6가지 패키지 분류로 나누어 진다. 패키지 분류와 속하는 패키지 명이다.&#xA;&amp;ndash; Registry (config)&#xA;&amp;ndash; Controller (controller)&#xA;&amp;ndash; Service (service, vo)&#xA;&amp;ndash; Domain (domain)&#xA;&amp;ndash; Repository (repository, dto)&#xA;&amp;ndash; External (external)</description>
     </item>
     <item>
       <title>Profile</title>
-      <link>https://jongyoungcha.github.io/posts/profile/</link>
+      <link>http://localhost:1313/posts/profile/</link>
       <pubDate>Sat, 17 Oct 1987 00:00:00 +0900</pubDate>
-      <guid>https://jongyoungcha.github.io/posts/profile/</guid>
+      <guid>http://localhost:1313/posts/profile/</guid>
       <description>Richard Jo, Developer LinkedIn: https://www.linkedin.com/in/yeongchan-jo-37193a140 Github: https://github.com/witnessJo Codeberg: https://codeberg.org/witnessJo Tech Stacks Langauges: Golang, Java/TypeScript, Java, C-plus, C, Shell Script DB: PostgresSQL, MariaDB, MongoDB, Redis Infra: Kubernetes, Docker, Kafka OS: Linux, OSX, Windows IDE: Emacs, VSCode, IntelliJ ETC: Hyperledger Fabric, Ethereum, BitCoin </description>
     </item>
   </channel>
