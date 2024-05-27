@@ -6,8 +6,15 @@
     <description>Recent content in Categories on Richard Jo&#39;s journal</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 24 May 2024 14:19:29 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 27 May 2024 14:13:48 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Emacs</title>
+      <link>http://localhost:1313/categories/emacs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/emacs/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Blockchain</title>
       <link>http://localhost:1313/categories/blockchain/</link>
@@ -27,13 +34,6 @@
       <link>http://localhost:1313/categories/hyperledger/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/categories/hyperledger/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Emacs</title>
-      <link>http://localhost:1313/categories/emacs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/emacs/</guid>
       <description></description>
     </item>
     <item>

@@ -6,8 +6,15 @@
     <description>Recent content on Richard Jo&#39;s journal</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 24 May 2024 14:19:29 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 27 May 2024 14:13:48 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Emacs ob-mermaid 사용 시 puppeteer관련 symlink 관련 에러 발생</title>
+      <link>http://localhost:1313/posts/emacs/ob-mermaid-needed-puppeteer-symlink/</link>
+      <pubDate>Mon, 27 May 2024 00:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/emacs/ob-mermaid-needed-puppeteer-symlink/</guid>
+      <description>Arch Linux 상에서 작업 중&#xA;org모드에서 ob-mermaid를 사용하기 위해서 mermaid-cli 설치 완료.&#xA;이 후 테스트로 mmdc CLI를 테스트 하는데 아래의 메시지와 함께 output 파일이 안 생김&#xA;Error: Could not find Chromium (rev. 1108766). This can occur if either 1. you did not perform an installation before running the script (e.g. `npm install`) or 2. your cache path is incorrectly configured (which is: /home/sacha/.cache/puppeteer). For (2), check out our guide on configuring puppeteer at https://pptr.</description>
+    </item>
     <item>
       <title>Security Token Offering (ERC-3643)</title>
       <link>http://localhost:1313/posts/blockchain/sto-erc-3643/</link>

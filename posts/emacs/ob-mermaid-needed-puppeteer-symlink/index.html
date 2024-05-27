@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emacs ob-mermaid 사용 시 puppeteer관련 symlink 관련 에러 발생 | Richard Jo&#39;s journal</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/posts/profile">Profile</a></li>
+      
+      <li><a href="/categories">Categories</a></li>
+      
+      <li><a href="/tags">Tags</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Emacs ob-mermaid 사용 시 puppeteer관련 symlink 관련 에러 발생</span></h1>
+<h2 class="author">[Richard Jo]</h2>
+<h2 class="date">2024/05/27</h2>
+</div>
+
+<main>
+<p>Arch Linux 상에서 작업 중</p>
+<p>org모드에서 ob-mermaid를 사용하기 위해서 mermaid-cli 설치 완료.</p>
+<p>이 후 테스트로 mmdc CLI를 테스트 하는데 아래의 메시지와 함께 output 파일이 안 생김</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Error: Could not find Chromium <span style="color:#f92672">(</span>rev. 1108766<span style="color:#f92672">)</span>. This can occur <span style="color:#66d9ef">if</span> either
+</span></span><span style="display:flex;"><span> 1. you did not perform an installation before running the script <span style="color:#f92672">(</span>e.g. <span style="color:#e6db74">`</span>npm install<span style="color:#e6db74">`</span><span style="color:#f92672">)</span> or
+</span></span><span style="display:flex;"><span> 2. your cache path is incorrectly configured <span style="color:#f92672">(</span>which is: /home/sacha/.cache/puppeteer<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>For <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>, check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.900<span style="color:#e6db74">&#34;
+</span></span></span></code></pre></div><p>찾아보니 Emacs 생테계에서 조금 유명한 sacha chua님의 블로그에서 원인을 찾을 수 있었음
+<a href="https://sachachua.com/blog/2023/10/getting-mermaid-js-running-on-my-system-needed-to-symlink-chromium-for-puppeteer/">https://sachachua.com/blog/2023/10/getting-mermaid-js-running-on-my-system-needed-to-symlink-chromium-for-puppeteer/</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo npm install -g puppeteer mermaid @mermaid-js/mermaid-cli --unsafe-perm
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Cache Chromium for my own user</span>
+</span></span><span style="display:flex;"><span>$ node /usr/lib/node_modules/puppeteer/install.js --unsafe-perm
+</span></span><span style="display:flex;"><span>$ sudo npm install -g mermaid @mermaid-js/mermaid-cli
+</span></span><span style="display:flex;"><span>$ ln -s ~/.cache/puppeteer/chrome/linux-125.0.6422.78 ~/.cache/puppeteer/chrome/linux-1108766
+</span></span><span style="display:flex;"><span>$ ln -s ~/.cache/puppeteer/chrome/linux-125.0.6422.78/chrome-linux64/ ~/.cache/puppeteer/chrome/linux-125.0.6422.78/chrome-linux
+</span></span></code></pre></div><p>위의 내용을 수행했더니</p>
+<p>mermaid code snippet에 대한 이미지가 이상없이 생성되었음</p>
+
+</main>
+
+  <footer>
+  
+  
+  </footer>
+  </body>
+</html>
+
