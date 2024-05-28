@@ -34,21 +34,19 @@
 <main>
 <h2 id="security-token-offering--erc-3643">Security Token Offering (ERC-3643)</h2>
 <h3 id="구성요소-설명">구성요소 설명</h3>
-<h4 id="identify-with-onchaind">Identify with ONCHAIND</h4>
+<h4 id="identify-with-onchainid">Identify with ONCHAINID</h4>
 <ol>
-<li>
-<p>온 체인 내에서 개인을 증명하는 수단, Identity Contract</p>
-</li>
-<li>
-<p><a href="https://docs.onchainid.com/docs/concepts/intro">ONCHAINID</a> 라는 시스템을 이용해서 지갑과 연결하는 것을 권장한다.</p>
-</li>
-<li>
-<p>ONCHAINID는 ERC-734, 735 두개의 표준 스마트 컨트랙트와 그와 관련된 Off-Chain 어플리케이션이다.</p>
-</li>
-<li>
-<p>ERC-734는 키의 보안과 유기적인 관리의 역할을 수행한다. 유저의 특정한 목적에 대한 public key를
+<li>온 체인 내에서 개인을 증명하는 수단, 일종의 Identity 시스템 (아래에 설명되는 Identity
+Registry와는 다르다.)</li>
+<li>ERC-3643에서는 <a href="https://docs.onchainid.com/docs/concepts/intro">ONCHAINID</a> 라는 시스템을 이용해서 지갑과 연결하는 것을 권장한다.</li>
+<li>ONCHAINID는 ERC-734, 735 두개의 표준 스마트 컨트랙트와 그와 관련된 Off-Chain 어플리케이션이다.</li>
+<li>만약에 당신이 ERC20 wallet을 보유한 경우에 만약 개인키와 관련된 wallet정보를 잃어버리면 영원히
+접근 할 수 없으나, ONCHAINID 시스템과 permissioned 토큰을 사용하면 토큰에 대한 접근을 잃게
+되더라도 ONCHAINID를 이용해서 소유자의 ID를 획득 한 이후 permissioned 토큰에 대한 접근을 복구 할
+수 있다.</li>
+<li>ERC-734는 키의 보안과 유기적인 관리의 역할을 수행한다. 유저의 특정한 목적에 대한 public key를
 등록, 삭제, 조회 등 관리 역할을 하고 있다. 컨트랙트는 유저 소유이므로 만약에 사용자가 신원을
-추가한다면 새로운 유저에 대한 ERC-734 컨트랙트가 배포되는 것으로 볼 수 있다. (1:1 관계)</p>
+추가한다면 새로운 유저에 대한 ERC-734 컨트랙트가 배포되는 것으로 볼 수 있다. (1:1 관계)
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">pragma solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">4</span>.<span style="color:#ae81ff">18</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">contract</span> <span style="color:#a6e22e">ERC734</span> {
@@ -80,9 +78,8 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">approve</span>(<span style="color:#66d9ef">uint256</span> _id, <span style="color:#66d9ef">bool</span> _approve) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span> success);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div></li>
-<li>
-<p>ERC-735는 키에 해당하는 claim(요청한 권리가 사용자의 정보 맞다는 증거)의 검증을 수행하는
-역할을 한다. 해당 컨트랙트를 사용하는 주체로는 기관을 예로 들 수 있을것이다.</p>
+<li>ERC-735는 키에 해당하는 claim(요청한 권리가 사용자의 정보 맞다는 증거)의 검증을 수행하는
+역할을 한다. 해당 컨트랙트를 사용하는 주체로는 기관을 예로 들 수 있을것이다.
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">pragma solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">4</span>.<span style="color:#ae81ff">18</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">contract</span> <span style="color:#a6e22e">ERC735</span> {
@@ -108,16 +105,11 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">removeClaim</span>(<span style="color:#66d9ef">bytes32</span> _claimId) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span> success);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div></li>
-<li>
-<p>usecase-ONCHAINID&gt; 해당 컨트랙트의 이용 예를 들면 Bob이 A기관의 인증된 개발자이고 A의 키들을
+<li>usecase-ONCHAINID&gt; 해당 컨트랙트의 이용 예를 들면 Bob이 A기관의 인증된 개발자이고 A의 키들을
 관리할 수 있는 ERC-734 컨트랙트가 등록된다. 이후 ERC-734에 등록된 Bob의 public키 중 일부를
 이용해서 Signature를 생성, A기관이 등록한 ERC-735 컨트랙트에 Bob의 컨트랙트 주소와 Signature를
-함께 등록 할 수 있다.</p>
-</li>
-<li>
-<p>ONCHAINID에 저장되는 표준 데이터 외 민감한 데이터들은 블록체인에 보관하지 말고 Off-Chain에
-저장하도록 한다.</p>
-</li>
+함께 등록 할 수 있다.</li>
+<li>저장되는 표준 데이터 외 민감한 데이터들은 블록체인에 보관하지 말고 Off-Chain에 저장하도록 한다.</li>
 </ol>
 <h4 id="registries">Registries</h4>
 <ol>
@@ -268,7 +260,27 @@ recoveryAddress 함수로 구현되어 있음.</li>
 </ol>
 <h3 id="usecases">Usecases</h3>
 <h4 id="artifacts">Artifacts</h4>
-<h4 id="case-1-투자자들-등록">case 1: 투자자들 등록</h4>
+<ol>
+<li>ONCHAINID:</li>
+<li>IdentityRegistry</li>
+<li>IdentityRegistryStorage</li>
+<li>ClaimTopicRegistry</li>
+<li>TrustedIsuserRegistry</li>
+<li>ComplianceContract</li>
+<li>SecurityTokenContract</li>
+</ol>
+<h4 id="onchainid를-이용해서-사용자-인증-후-서비스-이용하기">ONCHAINID를 이용해서 사용자 인증 후 서비스 이용하기</h4>
+<ul>
+<li>IDOwner: ONCHAINID 인증을 받고 특정 분야 서비스를 제공받고 싶은 사용자</li>
+<li>ONCHAINID(ERC-734,ERC-735): ONCHAINID 스마트 컨트랙트 연동된 KYC를 제공해주는 서비스 (oauth로 치면
+google, facebook, twitter와 같은 공인된 인증 서비스라고 봐도 될것 같다) -&gt; 새로운 사용자가 등록
+되면 ONCHAINID 비스 내부에서 사용자에 대한 ERC-734, ERC-735에 대한 컨트랙트가 등록될 것이다.</li>
+<li>Website: ONCHAINDID를 이용해서 사용자임을 확인하고 특정 서비스를 제공해주고자 하는 업체</li>
+</ul>
+<figure><img src="/ox-hugo/usecase0.png">
+</figure>
+
+<h4 id="case-1-투자자-정보-registry에-등록">case 1:  투자자 정보 Registry에 등록</h4>
 <h4 id="case-2-종목-등록-및-발행">case 2: 종목 등록 및 발행</h4>
 <h4 id="case-3-종목-거래">case 3: 종목 거래</h4>
 <h4 id="case-4-거래-정지">case 4: 거래 정지</h4>

@@ -6,7 +6,7 @@
     <description>Recent content on Richard Jo&#39;s journal</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 May 2024 14:13:48 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 28 May 2024 13:10:43 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Emacs ob-mermaid 사용 시 puppeteer관련 symlink 관련 에러 발생</title>
@@ -20,7 +20,7 @@
       <link>http://localhost:1313/posts/blockchain/sto-erc-3643/</link>
       <pubDate>Fri, 10 May 2024 15:01:00 +0900</pubDate>
       <guid>http://localhost:1313/posts/blockchain/sto-erc-3643/</guid>
-      <description>Security Token Offering (ERC-3643) 구성요소 설명 Identify with ONCHAIND 온 체인 내에서 개인을 증명하는 수단, Identity Contract&#xA;ONCHAINID 라는 시스템을 이용해서 지갑과 연결하는 것을 권장한다.&#xA;ONCHAINID는 ERC-734, 735 두개의 표준 스마트 컨트랙트와 그와 관련된 Off-Chain 어플리케이션이다.&#xA;ERC-734는 키의 보안과 유기적인 관리의 역할을 수행한다. 유저의 특정한 목적에 대한 public key를 등록, 삭제, 조회 등 관리 역할을 하고 있다. 컨트랙트는 유저 소유이므로 만약에 사용자가 신원을 추가한다면 새로운 유저에 대한 ERC-734 컨트랙트가 배포되는 것으로 볼 수 있다.</description>
+      <description>Security Token Offering (ERC-3643) 구성요소 설명 Identify with ONCHAINID 온 체인 내에서 개인을 증명하는 수단, 일종의 Identity 시스템 (아래에 설명되는 Identity Registry와는 다르다.) ERC-3643에서는 ONCHAINID 라는 시스템을 이용해서 지갑과 연결하는 것을 권장한다. ONCHAINID는 ERC-734, 735 두개의 표준 스마트 컨트랙트와 그와 관련된 Off-Chain 어플리케이션이다. 만약에 당신이 ERC20 wallet을 보유한 경우에 만약 개인키와 관련된 wallet정보를 잃어버리면 영원히 접근 할 수 없으나, ONCHAINID 시스템과 permissioned 토큰을 사용하면 토큰에 대한 접근을 잃게 되더라도 ONCHAINID를 이용해서 소유자의 ID를 획득 한 이후 permissioned 토큰에 대한 접근을 복구 할 수 있다.</description>
     </item>
     <item>
       <title>Security Token Offering (ERC-1400)</title>
